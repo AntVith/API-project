@@ -9,7 +9,6 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
 
-
     const spots = await Spot.findAll({
         include: [
             {
@@ -24,7 +23,6 @@ router.get('/', async (req, res, next) => {
     spots.forEach( house => {
         houseList.push(house.toJSON())
     })
-
     // below is looping thru each house to find ratings and avg them
     houseList.forEach( house => {
         let sum = 0
