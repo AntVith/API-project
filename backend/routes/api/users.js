@@ -13,35 +13,80 @@ const validateSignup = [
   check('email')
     .exists({ checkFalsy: true })
     .isEmail()
-    .withMessage('Please provide a valid email.'),
+    .withMessage('Invalid email'),
   check('username')
     .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
-  check('username')
-    .not()
-    .isEmail()
-    .withMessage('Username cannot be an email.'),
-  check('password')
+    .withMessage('Username is required'),
+  check('firstName')
+  .exists({ checkFalsy: true })
+    .withMessage("First Name is required"),
+  check('lastName')
     .exists({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .withMessage('Password must be 6 characters or more.'),
+    .withMessage("Last Name is required"),
   handleValidationErrors
 ];
 
+// took out validateSignup from params in post request, it went right after url
 // Sign up
 router.post(
     '/', validateSignup,
-    async (req, res) => {
+    async (req, res, next) => {
       const { firstName, lastName, email, password, username } = req.body;
+
+      const notValidEmail = await User.findAll({
+        where:{
+          email
+        }
+      })
+      const notValidUsername = await User.findAll({
+        where: {
+          username
+        }
+      })
+      if(notValidEmail.length){
+        console.log(notValidEmail)
+        let err = new Error()
+        err.message = "User already exists"
+        err.statusCode = 403
+        err.errors = {
+          "email": "User with that email already exists"
+        }
+        next(err)
+
+      } else if(notValidUsername.length){
+        console.log(notValidUsername)
+        let err = new Error()
+        err.message = "User already exists"
+        err.statusCode = 403
+        err.errors = {
+          "username": "User with that username already exists"
+        }
+        next(err)
+
+      } else{
       const user = await User.signup({ firstName, lastName, email, username, password });
 
-      await setTokenCookie(res, user);
+      const token = await setTokenCookie(res, user);
+
+      // console.log()
 
       return res.json({
-        user
+        'id': user.id,
+        firstName,
+        lastName,
+        email,
+        username,
+        token
       });
+      }
+
     }
   );
+
+  router.use((err, req, res, next) =>{
+    console.log(err)
+    res.statusCode = err.statusCode
+    res.send(err)
+  })
 
 module.exports = router;
