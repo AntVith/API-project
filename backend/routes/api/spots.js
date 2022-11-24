@@ -2,7 +2,7 @@ const express = require('express')
 
 const sequelize = require('sequelize')
 
-const {requireAuth } = require('../../utils/auth');
+const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const { check } = require('express-validator');
 
@@ -13,7 +13,7 @@ const router = express.Router();
 // adding an image to a spot based on Spot Id
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
-    const {url, preview} = req.body
+    const { url, preview } = req.body
     const userId = req.user.id
     // console.log( {'userID': userId})
 
@@ -24,8 +24,8 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const spotRequested = await Spot.findByPk(spotId)
     // console.log({"Spot requested": spotRequested})
 
-    if(spotRequested){
-        if(userId === owner.id){
+    if (spotRequested) {
+        if (userId === owner.id) {
             const newImage = await SpotImage.create({
                 spotId,
                 url,
@@ -38,17 +38,17 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
             }
 
             res.json(response)
-        } else{
+        } else {
             res.statusCode = 400
             res.json('Not Owner')
         }
-    } else{
+    } else {
         // console.log('failed', spotId)
         res.statusCode = 404
         res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
-          })
+        })
     }
 })
 
@@ -89,7 +89,7 @@ const validateSignUp = [
 router.post('/', requireAuth, validateSignUp, async (req, res, next) => {
 
 
-    const {address, city, state, country, lat, lng, name, description, price} = req.body
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
 
     // console.log('reqUSerid', req.user.id)
 
@@ -109,6 +109,88 @@ router.post('/', requireAuth, validateSignUp, async (req, res, next) => {
     res.json(newSpot)
 })
 
+router.get('/:spotId', async (req, res, next) => {
+    let info = []
+    const spotId = Number(req.params.spotId)
+
+    // console.log(typeof spotId)
+
+    const spot = await Spot.findOne({
+        where: {
+            id: spotId
+        },
+        include: [
+            {
+                model: Review
+            },
+            {
+                model: SpotImage,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'spotId']
+                }
+            }
+        ]
+    })
+
+    console.log(spot)
+    if (spot) {
+        info.push(spot.toJSON())
+
+        // below is getting info on owner of spot
+        // console.log('ownerid', spot.ownerId)
+        const ownerInfo = await User.findOne({
+            where: {
+                id: spot.ownerId
+            },
+            attributes: {
+                exclude: ['username']
+            }
+        })
+
+        // below adds the num of reviews key and value as well as
+        // the avg star ratings
+        info.forEach(house => {
+            let sum = 0
+            let count = 0
+            // console.log('new star')
+            for (let review of house.Reviews) {
+                // console.log("star", review.stars)
+                sum += review.stars
+                count++
+            }
+            house.numReviews = count
+
+            let avg = sum / count
+            // console.log('(sum/count)', (sum / count))
+            if (isNaN(avg)) {
+                house.avgStarRating = 'No ratings yet!'
+            } else {
+                house.avgStarRating = avg
+            }
+            delete house.Reviews
+        })
+        //  below puts spot image into right place in list of attributes
+        // order ins't guaranteed but when i do this it comes out as wanted
+        const spotImageInfo = info[0].SpotImages
+        delete info[0].SpotImages;
+        info[0].SpotImages = spotImageInfo
+
+        // below adds owner information to object to be returned
+        info[0].Owner = ownerInfo
+
+        // doing info[0] below takes out array brackets of info, api docs don't want
+        // the array brackets
+        res.json(info[0])
+
+    } else {
+        res.statusCode = 404
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+})
+
 // get all spots owned by current user
 router.get('/current', requireAuth, async (req, res, next) => {
     const userId = req.user.id
@@ -116,7 +198,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     // console.log({"userId": userId})
 
     const allSpots = await Spot.findAll({
-        where:{
+        where: {
             ownerId: userId
         },
         include: [
@@ -130,46 +212,46 @@ router.get('/current', requireAuth, async (req, res, next) => {
     })
 
     let houseList = []
-    allSpots.forEach( house => {
+    allSpots.forEach(house => {
         houseList.push(house.toJSON())
     })
     // below is looping thru each house to find ratings and avg them
-    houseList.forEach( house => {
+    houseList.forEach(house => {
         let sum = 0
         let count = 0
         // console.log('new star')
-        for(let review of house.Reviews){
+        for (let review of house.Reviews) {
             // console.log("star", review.stars)
             sum += review.stars
             count++
         }
-        let avg = sum/count
-        console.log('(sum/count)', (sum/count))
-        if(isNaN(avg)){
+        let avg = sum / count
+        console.log('(sum/count)', (sum / count))
+        if (isNaN(avg)) {
             house.avgRating = 'No ratings yet!'
-        } else{
+        } else {
             house.avgRating = avg
         }
 
         delete house.Reviews
     })
     houseList.forEach(house => {
-        house.SpotImages.forEach( image => {
+        house.SpotImages.forEach(image => {
             // console.log('image', image)
-            if (image.preview){
+            if (image.preview) {
                 house.previewImage = image.url
             } else {
                 house.previewImage = 'PREVIEW IMAGE NOT PROVIDED'
             }
         })
         // console.log({'previewimage': house.previewImage})
-        if(!house.previewImage){
+        if (!house.previewImage) {
             house.previewImage = 'PREVIEW IMAGE NOT PROVIDED'
         }
         delete house.SpotImages
     })
 
-    res.json({"Spots": houseList})
+    res.json({ "Spots": houseList })
 })
 
 // get all spots
@@ -186,38 +268,38 @@ router.get('/', async (req, res, next) => {
         ]
     })
     let houseList = []
-    spots.forEach( house => {
+    spots.forEach(house => {
         houseList.push(house.toJSON())
     })
     // below is looping thru each house to find ratings and avg them
-    houseList.forEach( house => {
+    houseList.forEach(house => {
         let sum = 0
         let count = 0
         // console.log('new star')
-        for(let review of house.Reviews){
+        for (let review of house.Reviews) {
             // console.log("star", review.stars)
             sum += review.stars
             count++
         }
-        let avg = sum/count
-        console.log('(sum/count)', (sum/count))
-        if(isNaN(avg)){
+        let avg = sum / count
+        console.log('(sum/count)', (sum / count))
+        if (isNaN(avg)) {
             house.avgRating = 'No ratings yet!'
-        } else{
+        } else {
             house.avgRating = avg
         }
         delete house.Reviews
     })
     houseList.forEach(house => {
-        house.SpotImages.forEach( image => {
+        house.SpotImages.forEach(image => {
             console.log('image', image)
-            if (image.preview){
+            if (image.preview) {
                 house.previewImage = image.url
             } else {
                 house.previewImage = 'PREVIEW IMAGE NOT PROVIDED'
             }
         })
-        if(!house.previewImage){
+        if (!house.previewImage) {
             house.previewImage = 'PREVIEW IMAGE NOT PROVIDED'
         }
         delete house.SpotImages
@@ -230,7 +312,7 @@ router.get('/', async (req, res, next) => {
 
 
 
-router.use((err, req, res, next) =>{
+router.use((err, req, res, next) => {
     console.log(err)
     res.statusCode = err.statusCode
     res.send(err)
