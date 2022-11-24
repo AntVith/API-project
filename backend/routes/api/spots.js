@@ -108,6 +108,68 @@ router.post('/', requireAuth, validateSignUp, async (req, res, next) => {
     res.statusCode = 201
     res.json(newSpot)
 })
+// get all spots owned by current user
+router.get('/current', requireAuth, async (req, res, next) => {
+    const userId = req.user.id
+
+    // console.log({"userId": userId})
+
+    const allSpots = await Spot.findAll({
+        where: {
+            ownerId: userId
+        },
+        include: [
+            {
+                model: Review
+            },
+            {
+                model: SpotImage
+            }
+        ]
+    })
+
+    let houseList = []
+    allSpots.forEach(house => {
+        houseList.push(house.toJSON())
+    })
+    // below is looping thru each house to find ratings and avg them
+    houseList.forEach(house => {
+        let sum = 0
+        let count = 0
+        // console.log('new star')
+        for (let review of house.Reviews) {
+            // console.log("star", review.stars)
+            sum += review.stars
+            count++
+        }
+        let avg = sum / count
+        console.log('(sum/count)', (sum / count))
+        if (isNaN(avg)) {
+            house.avgRating = 'No ratings yet!'
+        } else {
+            house.avgRating = avg
+        }
+
+        delete house.Reviews
+    })
+    houseList.forEach(house => {
+        house.SpotImages.forEach(image => {
+            // console.log('image', image)
+            if (image.preview) {
+                house.previewImage = image.url
+            } else {
+                house.previewImage = 'PREVIEW IMAGE NOT PROVIDED'
+            }
+        })
+        // console.log({'previewimage': house.previewImage})
+        if (!house.previewImage) {
+            house.previewImage = 'PREVIEW IMAGE NOT PROVIDED'
+        }
+        delete house.SpotImages
+    })
+
+    res.json({ "Spots": houseList })
+})
 
 router.get('/:spotId', async (req, res, next) => {
     let info = []
@@ -191,68 +253,6 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 
-// get all spots owned by current user
-router.get('/current', requireAuth, async (req, res, next) => {
-    const userId = req.user.id
-
-    // console.log({"userId": userId})
-
-    const allSpots = await Spot.findAll({
-        where: {
-            ownerId: userId
-        },
-        include: [
-            {
-                model: Review
-            },
-            {
-                model: SpotImage
-            }
-        ]
-    })
-
-    let houseList = []
-    allSpots.forEach(house => {
-        houseList.push(house.toJSON())
-    })
-    // below is looping thru each house to find ratings and avg them
-    houseList.forEach(house => {
-        let sum = 0
-        let count = 0
-        // console.log('new star')
-        for (let review of house.Reviews) {
-            // console.log("star", review.stars)
-            sum += review.stars
-            count++
-        }
-        let avg = sum / count
-        console.log('(sum/count)', (sum / count))
-        if (isNaN(avg)) {
-            house.avgRating = 'No ratings yet!'
-        } else {
-            house.avgRating = avg
-        }
-
-        delete house.Reviews
-    })
-    houseList.forEach(house => {
-        house.SpotImages.forEach(image => {
-            // console.log('image', image)
-            if (image.preview) {
-                house.previewImage = image.url
-            } else {
-                house.previewImage = 'PREVIEW IMAGE NOT PROVIDED'
-            }
-        })
-        // console.log({'previewimage': house.previewImage})
-        if (!house.previewImage) {
-            house.previewImage = 'PREVIEW IMAGE NOT PROVIDED'
-        }
-        delete house.SpotImages
-    })
-
-    res.json({ "Spots": houseList })
-})
 
 // get all spots
 router.get('/', async (req, res, next) => {
