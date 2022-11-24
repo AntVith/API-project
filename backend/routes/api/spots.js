@@ -10,6 +10,8 @@ const { Spot, Review, SpotImage, User } = require('../../db/models')
 
 const router = express.Router();
 
+//      POST
+
 // adding an image to a spot based on Spot Id
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
@@ -108,6 +110,48 @@ router.post('/', requireAuth, validateSignUp, async (req, res, next) => {
     res.statusCode = 201
     res.json(newSpot)
 })
+
+//       PUT
+// edit a spot
+router.put('/:spotId', requireAuth, validateSignUp, async (req, res, next) => {
+
+    const currentUserId = req.user.id
+
+    const {address, city, state, country, lat, lng, name, description, price} = req.body
+
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (spot) {
+        const ownerId = spot.ownerId
+
+        if (currentUserId === ownerId) {
+            console.log('success')
+            if(address) spot.address = address;
+            if(city) spot.city = city;
+            if(state) spot.state = state;
+            if(country) spot.country = country;
+            if(lat) spot.lat = lat;
+            if(lng) spot.lng = lng;
+            if(name) spot.name = name;
+            if(description) spot.description = description;
+            if(price) spot.price = price;
+
+            await spot.save()
+
+            res.json(spot)
+        }
+
+    } else{
+        res.statusCode = 404
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+          })
+    }
+})
+
+//       GET
+
 // get all spots owned by current user
 router.get('/current', requireAuth, async (req, res, next) => {
     const userId = req.user.id
