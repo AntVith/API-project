@@ -10,7 +10,49 @@ const { Spot, Review, SpotImage, User } = require('../../db/models')
 
 const router = express.Router();
 
+// adding an image to a spot based on Spot Id
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
+    const {url, preview} = req.body
+    const userId = req.user.id
+    // console.log( {'userID': userId})
+
+    const owner = await User.findByPk(userId)
+    // console.log({'ownerID': owner.id})
+
+    const spotId = req.params.spotId
+    const spotRequested = await Spot.findByPk(spotId)
+    // console.log({"Spot requested": spotRequested})
+
+    if(spotRequested){
+        if(userId === owner.id){
+            const newImage = await SpotImage.create({
+                spotId,
+                url,
+                preview
+            })
+            const response = {
+                'id': newImage.id,
+                url,
+                preview
+            }
+
+            res.json(response)
+        } else{
+            res.statusCode = 400
+            res.json('Not Owner')
+        }
+    } else{
+        // console.log('failed', spotId)
+        res.statusCode = 404
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+          })
+    }
+})
+
+// validate sign up used for creating a new user route below
 const validateSignUp = [
     check('address')
         .exists({ checkFalsy: true })
@@ -114,10 +156,14 @@ router.get('/', async (req, res, next) => {
 })
 
 
+
+
 router.use((err, req, res, next) =>{
     console.log(err)
     res.statusCode = err.statusCode
     res.send(err)
-  })
+})
+
+
 
 module.exports = router;
