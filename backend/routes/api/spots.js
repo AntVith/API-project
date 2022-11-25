@@ -353,7 +353,33 @@ router.get('/', async (req, res, next) => {
     res.json({ "Spots": houseList })
 })
 
+//      DELETE
 
+// delete a spot
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+    const currentUserId = req.user.id
+
+    if(spot){
+        const ownerId = spot.ownerId
+        if(currentUserId === ownerId){
+            await spot.destroy()
+
+            res.statusCode = 200;
+            res.json({
+                "message": "Successfully deleted",
+                "statusCode": 200
+              })
+        }
+
+    } else{
+        res.statusCode = 404
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+} )
 
 
 router.use((err, req, res, next) => {
