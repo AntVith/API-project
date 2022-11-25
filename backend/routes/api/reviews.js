@@ -8,18 +8,73 @@ const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models'
 
 const router = express.Router();
 
-// router.get('/current', requireAuth, async (req, res, next) => {
-//     const currentUserId = req.user.id
+router.get('/current', requireAuth, async (req, res, next) => {
+    const currentUserId = req.user.id
 
-//     const reviews = await Review.findAll({
-//         where:{
-//             userId: currentUserId
-//         }
-//     })
+    const reviews = await Review.findAll({
+        where: {
+            userId: currentUserId
+        },
+        include: [
+            {
+                model: User
+            },
+            {
+                model: Spot,
+                include:{
+                    model:SpotImage
+                }
+            },
+            {
+                model: ReviewImage
+            }
+        ]
+    })
+    // below changes whole user object to just fields necessary
+    reviews.forEach(review => {
+        let userDataValues = review.User.dataValues
 
-//     res.json(reviews)
+        delete userDataValues.username
+    })
 
-// })
+    // below changes the spot object to include all fields necessary
+    reviews.forEach(review => {
+        let spotDataValues = review.Spot.dataValues
+
+        if(spotDataValues.SpotImages.length){
+            spotDataValues.SpotImages.forEach(spotImage => {
+                if(spotImage.preview){
+                    spotDataValues.previewImage = spotImage.url
+                }
+            })
+
+        }
+        if(!review.previewImage){
+            review.previewImage = 'No Preview Image Provided'
+        }
+        delete spotDataValues.SpotImages
+        delete spotDataValues.createdAt
+        delete spotDataValues.updatedAt
+        delete spotDataValues.description
+    })
+
+    // below changes review Images objects in array to include just fields necassary
+    reviews.forEach(review =>{
+        if(review.ReviewImages.length){
+            review.ReviewImages.forEach(reviewImage => {
+                let reviewImageDataValues = reviewImage.dataValues
+                // console.log(reviewImageDataValues)
+                reviewImage.dataValues = {
+                    'id': reviewImageDataValues.id,
+                    'url': reviewImageDataValues.url
+                }
+            })
+        }
+    })
+
+    res.json({ "Reviews": reviews })
+
+})
 
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const { url } = req.body;
