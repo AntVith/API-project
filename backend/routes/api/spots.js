@@ -12,6 +12,56 @@ const router = express.Router();
 
 //      POST
 
+const validateReview = [
+    check('review')
+      .exists({ checkFalsy: true })
+      .withMessage("Review text is required"),
+    check('stars')
+      .exists({ checkFalsy: true })
+      .withMessage("Stars must be an integer from 1 to 5"),
+    handleValidationErrors
+  ];
+
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+    const userId = req.user.id
+
+    const { review, stars } = req.body
+
+    if (spot) {
+        const checkForExistingReview = await Review.findOne({
+            where: {
+                userId,
+                spotId: spot.id
+            }
+        })
+
+        if (checkForExistingReview) {
+            res.statusCode = 403;
+            res.json({
+                "message": "User already has a review for this spot",
+                "statusCode": 403
+              })
+        } else {
+            const newReview = await Review.create({
+                userId,
+                spotId: spot.id,
+                review,
+                stars
+            })
+            res.statusCode = 201;
+            res.json(newReview)
+        }
+    } else {
+        res.statusCode = 404;
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+
+})
+
 // adding an image to a spot based on Spot Id
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
@@ -117,7 +167,7 @@ router.put('/:spotId', requireAuth, validateSignUp, async (req, res, next) => {
 
     const currentUserId = req.user.id
 
-    const {address, city, state, country, lat, lng, name, description, price} = req.body
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
 
     const spot = await Spot.findByPk(req.params.spotId)
 
@@ -126,27 +176,27 @@ router.put('/:spotId', requireAuth, validateSignUp, async (req, res, next) => {
 
         if (currentUserId === ownerId) {
             console.log('success')
-            if(address) spot.address = address;
-            if(city) spot.city = city;
-            if(state) spot.state = state;
-            if(country) spot.country = country;
-            if(lat) spot.lat = lat;
-            if(lng) spot.lng = lng;
-            if(name) spot.name = name;
-            if(description) spot.description = description;
-            if(price) spot.price = price;
+            if (address) spot.address = address;
+            if (city) spot.city = city;
+            if (state) spot.state = state;
+            if (country) spot.country = country;
+            if (lat) spot.lat = lat;
+            if (lng) spot.lng = lng;
+            if (name) spot.name = name;
+            if (description) spot.description = description;
+            if (price) spot.price = price;
 
             await spot.save()
 
             res.json(spot)
         }
 
-    } else{
+    } else {
         res.statusCode = 404
         res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
-          })
+        })
     }
 })
 
@@ -360,26 +410,26 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId)
     const currentUserId = req.user.id
 
-    if(spot){
+    if (spot) {
         const ownerId = spot.ownerId
-        if(currentUserId === ownerId){
+        if (currentUserId === ownerId) {
             await spot.destroy()
 
             res.statusCode = 200;
             res.json({
                 "message": "Successfully deleted",
                 "statusCode": 200
-              })
+            })
         }
 
-    } else{
+    } else {
         res.statusCode = 404
         res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
         })
     }
-} )
+})
 
 
 router.use((err, req, res, next) => {
