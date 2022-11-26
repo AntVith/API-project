@@ -6,7 +6,7 @@ const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const { check } = require('express-validator');
 
-const { Spot, Review, SpotImage, User } = require('../../db/models')
+const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models')
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ const validateReview = [
       .withMessage("Stars must be an integer from 1 to 5"),
     handleValidationErrors
   ];
-
+// post a review based on spotID
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId)
     const userId = req.user.id
@@ -202,6 +202,43 @@ router.put('/:spotId', requireAuth, validateSignUp, async (req, res, next) => {
 
 //       GET
 
+// get all reviews by a Spot's id
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const reviews = await Review.findAll({
+        where:{
+            spotId: req.params.spotId
+        },
+        include:[
+            {
+                model:User
+            },
+            {
+                model: ReviewImage
+            }
+        ]
+    })
+// take out username from user object
+    reviews.forEach(review => {
+        let userDataValues = review.User.dataValues
+
+        delete userDataValues.username
+    })
+// only include id and url in ReviewImages object
+    reviews.forEach(review =>{
+        if(review.ReviewImages.length){
+            review.ReviewImages.forEach(reviewImage => {
+                let reviewImageDataValues = reviewImage.dataValues
+                // console.log(reviewImageDataValues)
+                reviewImage.dataValues = {
+                    'id': reviewImageDataValues.id,
+                    'url': reviewImageDataValues.url
+                }
+            })
+        }
+    })
+    res.json({"Reviews": reviews})
+})
+
 // get all spots owned by current user
 router.get('/current', requireAuth, async (req, res, next) => {
     const userId = req.user.id
@@ -264,7 +301,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
     res.json({ "Spots": houseList })
 })
-
+// get spot by id
 router.get('/:spotId', async (req, res, next) => {
     let info = []
     const spotId = Number(req.params.spotId)
