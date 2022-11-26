@@ -103,9 +103,12 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => 
     if(reviewToUpdate){
         if(userId === reviewToUpdate.dataValues.userId){
 
-        reviewToUpdate.dataValues.review = review;
-        reviewToUpdate.dataValues.stars = stars;
+        reviewToUpdate.review = review;
+        reviewToUpdate.stars = stars;
+
+        await reviewToUpdate.save()
         res.json(reviewToUpdate)
+
         } else{
             res.statusCode = 400
             res.json('Review must belong to the current user')

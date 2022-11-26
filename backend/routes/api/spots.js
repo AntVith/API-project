@@ -12,6 +12,24 @@ const router = express.Router();
 
 //      POST
 
+//create booking based off spotID
+// router.post('/:spotId/bookings', requireAuth, async (req, res, next) =>{
+
+//     const spot = await Spot.findByPk(req.params.spotId)
+
+//     const {startDate, endDate} = req.body
+
+//     if(spot){
+
+//     } else{
+//         res.statusCode = 404;
+//         res.json({
+//             "message": "Spot couldn't be found",
+//             "statusCode": 404
+//           })
+//     }
+// })
+
 const validateReview = [
     check('review')
         .exists({ checkFalsy: true })
