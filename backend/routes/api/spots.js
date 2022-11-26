@@ -6,29 +6,126 @@ const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const { check } = require('express-validator');
 
-const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models')
+const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models')
 
 const router = express.Router();
 
 //      POST
 
 //create booking based off spotID
-// router.post('/:spotId/bookings', requireAuth, async (req, res, next) =>{
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
-//     const spot = await Spot.findByPk(req.params.spotId)
+    const spot = await Spot.findByPk(req.params.spotId)
+    const { startDate, endDate } = req.body
+    const userId = req.user.id
 
-//     const {startDate, endDate} = req.body
+    // puts date string into date format
+    const startDateFormat = new Date(startDate)
+    const endDateFormat = new Date(endDate)
 
-//     if(spot){
+    // below gets milliseconds from 1970 to date
+    const timeToStart = startDateFormat.getTime()
+    const timeToEnd = endDateFormat.getTime()
 
-//     } else{
-//         res.statusCode = 404;
-//         res.json({
-//             "message": "Spot couldn't be found",
-//             "statusCode": 404
-//           })
-//     }
-// })
+    // body validations to make sure end date is after start date
+    if (timeToEnd <= timeToStart) {
+        res.statusCode = 400
+        return res.json({
+            "message": "Validation error",
+            "statusCode": 400,
+            "errors": {
+                "endDate": "endDate cannot be on or before startDate"
+            }
+        })
+    }
+    // finding all bookings for spot
+    const bookingsForSpot = await Booking.findAll({
+        where: {
+            spotId: req.params.spotId
+        }
+    })
+
+
+    // if spot exists
+    if (spot) {
+        // if user isn't owner
+        if (userId !== spot.ownerId) {
+            // if bookings exist for the spot
+            if (bookingsForSpot) {
+                // check to see if the requested days conflict with an existing booking
+                for (let booking of bookingsForSpot) {
+                    console.log({'booking':booking})
+                    // below gets milliseconds from 1970 to start and end dates in booking for that spot
+                    const timeToBookingStart = booking.startDate.getTime()
+                    const timeToBookingEnd = booking.endDate.getTime()
+                    // console.log({'start': timeToBookingStart})
+                    // console.log({'end': timeToBookingEnd})
+
+                    // if the asked booking start date is equal to an already booked start date or between the days of an existing booking
+                    if (timeToStart === timeToBookingStart || (timeToStart > timeToBookingStart && timeToStart < timeToBookingEnd)) {
+                        res.statusCode = 403;
+                        return res.json({
+                            "message": "Sorry, this spot is already booked for the specified dates",
+                            "statusCode": 403,
+                            "errors": {
+                                "startDate": "Start date conflicts with an existing booking",
+                            }
+                        })
+                    }
+                    // if the asked booking end date is between the days of an existing booking
+                    if (timeToEnd > timeToBookingStart && timeToEnd <= timeToBookingEnd) {
+                        res.statusCode = 403;
+                        return res.json({
+                            "message": "Sorry, this spot is already booked for the specified dates",
+                            "statusCode": 403,
+                            "errors": {
+                                "endDate": "End date conflicts with an existing booking"
+                            }
+                        })
+                    }
+                    // if the booking fully encompasses days of an existing booking
+                    if (timeToStart < timeToBookingStart && timeToEnd > timeToBookingEnd) {
+                        res.statusCode = 403;
+                        return res.json({
+                            "message": "Sorry, this spot is already booked for the specified dates",
+                            "statusCode": 403,
+                            "errors": {
+                                "startDate": "Start date conflicts with an existing booking",
+                                "endDate": "End date conflicts with an existing booking"
+                            }
+                        })
+                    }
+                }
+                // if it makes it past all checks for each booking on that spot already
+                const newBooking = await Booking.create({
+                    spotId: Number(req.params.spotId),
+                    userId,
+                    startDate,
+                    endDate
+                })
+                res.json(newBooking)
+            } else {
+                // if no bookings, create the booking
+                const newBooking = await Booking.create({
+                    spotId: Number(req.params.spotId),
+                    userId,
+                    startDate,
+                    endDate
+                })
+                res.json(newBooking)
+            }
+        } else{
+            res.statusCode = 400;
+            res.json("Can't book at your own Spot!")
+        }
+    } else {
+        res.statusCode = 404;
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+})
 
 const validateReview = [
     check('review')
@@ -259,12 +356,12 @@ router.get('/:spotId/reviews', async (req, res, next) => {
             }
         })
         res.json({ "Reviews": reviews })
-    } else{
+    } else {
         res.statusCode = 404;
         res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
-          })
+        })
     }
 })
 
