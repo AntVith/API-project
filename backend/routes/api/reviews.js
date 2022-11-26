@@ -94,14 +94,22 @@ const validateReview = [
 
 router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => {
     const {review, stars} = req.body
+    const userId = req.user.id
 
     const reviewToUpdate = await Review.findByPk(req.params.reviewId)
 
+
+
     if(reviewToUpdate){
+        if(userId === reviewToUpdate.dataValues.userId){
+
         reviewToUpdate.dataValues.review = review;
         reviewToUpdate.dataValues.stars = stars;
-
         res.json(reviewToUpdate)
+        } else{
+            res.statusCode = 400
+            res.json('Review must belong to the current user')
+        }
     } else{
         res.statusCode = 404;
         res.json({
@@ -109,6 +117,7 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => 
             "statusCode": 404
         })
     }
+
 })
 
 //      POST
