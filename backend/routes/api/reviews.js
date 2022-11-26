@@ -79,6 +79,38 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 })
 
+//      PUT
+
+// validation for review body
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage("Review text is required"),
+    check('stars')
+        .exists({ checkFalsy: true })
+        .withMessage("Stars must be an integer from 1 to 5"),
+    handleValidationErrors
+];
+
+router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => {
+    const {review, stars} = req.body
+
+    const reviewToUpdate = await Review.findByPk(req.params.reviewId)
+
+    if(reviewToUpdate){
+        reviewToUpdate.dataValues.review = review;
+        reviewToUpdate.dataValues.stars = stars;
+
+        res.json(reviewToUpdate)
+    } else{
+        res.statusCode = 404;
+        res.json({
+            "message": "Review couldn't be found",
+            "statusCode": 404
+        })
+    }
+})
+
 //      POST
 
 // create an image for a review based on reviewID
