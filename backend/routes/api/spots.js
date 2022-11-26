@@ -14,13 +14,13 @@ const router = express.Router();
 
 const validateReview = [
     check('review')
-      .exists({ checkFalsy: true })
-      .withMessage("Review text is required"),
+        .exists({ checkFalsy: true })
+        .withMessage("Review text is required"),
     check('stars')
-      .exists({ checkFalsy: true })
-      .withMessage("Stars must be an integer from 1 to 5"),
+        .exists({ checkFalsy: true })
+        .withMessage("Stars must be an integer from 1 to 5"),
     handleValidationErrors
-  ];
+];
 // post a review based on spotID
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId)
@@ -41,7 +41,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
             res.json({
                 "message": "User already has a review for this spot",
                 "statusCode": 403
-              })
+            })
         } else {
             const newReview = await Review.create({
                 userId,
@@ -205,38 +205,49 @@ router.put('/:spotId', requireAuth, validateSignUp, async (req, res, next) => {
 // get all reviews by a Spot's id
 router.get('/:spotId/reviews', async (req, res, next) => {
     const reviews = await Review.findAll({
-        where:{
+        where: {
             spotId: req.params.spotId
         },
-        include:[
+        include: [
             {
-                model:User
+                model: User
             },
             {
                 model: ReviewImage
             }
         ]
     })
-// take out username from user object
-    reviews.forEach(review => {
-        let userDataValues = review.User.dataValues
+    const spot = await Spot.findByPk(req.params.spotId)
 
-        delete userDataValues.username
-    })
-// only include id and url in ReviewImages object
-    reviews.forEach(review =>{
-        if(review.ReviewImages.length){
-            review.ReviewImages.forEach(reviewImage => {
-                let reviewImageDataValues = reviewImage.dataValues
-                // console.log(reviewImageDataValues)
-                reviewImage.dataValues = {
-                    'id': reviewImageDataValues.id,
-                    'url': reviewImageDataValues.url
-                }
-            })
-        }
-    })
-    res.json({"Reviews": reviews})
+    // if the spot exists
+    if (spot) {
+        // take out username from user object
+        reviews.forEach(review => {
+            let userDataValues = review.User.dataValues
+
+            delete userDataValues.username
+        })
+        // only include id and url in ReviewImages object
+        reviews.forEach(review => {
+            if (review.ReviewImages.length) {
+                review.ReviewImages.forEach(reviewImage => {
+                    let reviewImageDataValues = reviewImage.dataValues
+                    // console.log(reviewImageDataValues)
+                    reviewImage.dataValues = {
+                        'id': reviewImageDataValues.id,
+                        'url': reviewImageDataValues.url
+                    }
+                })
+            }
+        })
+        res.json({ "Reviews": reviews })
+    } else{
+        res.statusCode = 404;
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+          })
+    }
 })
 
 // get all spots owned by current user
