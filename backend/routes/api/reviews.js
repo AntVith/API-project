@@ -7,6 +7,9 @@ const { check } = require('express-validator');
 const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models')
 
 const router = express.Router();
+
+//  GET
+
 // get reviews of current user
 router.get('/current', requireAuth, async (req, res, next) => {
     const currentUserId = req.user.id
@@ -75,7 +78,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json({ "Reviews": reviews })
 
 })
-// create an image for a review
+
+//      POST
+
+// create an image for a review based on reviewID
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const { url } = req.body;
     const reviewId = req.params.reviewId
