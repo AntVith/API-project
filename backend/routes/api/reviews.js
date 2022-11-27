@@ -52,8 +52,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
             })
 
         }
-        if(!review.previewImage){
-            review.previewImage = 'No Preview Image Provided'
+        if(!spotDataValues.previewImage){
+            spotDataValues.previewImage = 'No Preview Image Provided'
         }
         delete spotDataValues.SpotImages
         delete spotDataValues.createdAt
