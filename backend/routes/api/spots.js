@@ -54,7 +54,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
             if (bookingsForSpot) {
                 // check to see if the requested days conflict with an existing booking
                 for (let booking of bookingsForSpot) {
-                    console.log({'booking':booking})
+                    console.log({ 'booking': booking })
                     // below gets milliseconds from 1970 to start and end dates in booking for that spot
                     const timeToBookingStart = booking.startDate.getTime()
                     const timeToBookingEnd = booking.endDate.getTime()
@@ -114,7 +114,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 })
                 res.json(newBooking)
             }
-        } else{
+        } else {
             res.statusCode = 400;
             res.json("Can't book at your own Spot!")
         }
@@ -316,6 +316,78 @@ router.put('/:spotId', requireAuth, validateSignUp, async (req, res, next) => {
 })
 
 //       GET
+
+// get all bookings for a spot based on spot id
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+
+    const userId = req.user.id
+
+    const spotInfo = await Spot.findByPk(req.params.spotId)
+    // console.log(spotInfo)
+
+
+    // if (!spotInfo) {
+    //     res.statusCode = 404;
+    //     return res.json({
+    //         "message": "Spot couldn't be found",
+    //         "statusCode": 404
+    //     })
+    // }
+
+
+    const bookingsForCustomer = await Booking.findAll({
+        where: {
+            spotId: req.params.spotId
+        },
+        include: [
+            {
+                model: User
+            },
+
+        ]
+    })
+    // if spot exists
+    if (spotInfo) {
+        if (bookingsForCustomer.length) {
+            const ownerOfSpot = spotInfo.dataValues.ownerId
+            // if the user is the owner of the house
+            if (userId === ownerOfSpot) {
+                // take out username from user object
+                bookingsForCustomer.forEach(booking => {
+                    let userDataValues = booking.User.dataValues
+
+                    delete userDataValues.username
+                })
+
+                res.json({'Bookings': bookingsForCustomer})
+            } else {
+                // if user is not owner
+                // delete extra info
+                bookingsForCustomer.forEach(booking => {
+                    // console.log(booking)
+                    delete booking.dataValues.id
+                    delete booking.dataValues.User
+                    delete booking.dataValues.userId
+                    delete booking.dataValues.createdAt
+                    delete booking.dataValues.updatedAt
+                })
+                res.json({'Bookings': bookingsForCustomer})
+            }
+        } else {
+            // no bookings
+            res.json('No bookings yet!')
+        }
+    } else{
+        // no spot
+        res.statusCode = 404;
+         return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+
+
+})
 
 // get all reviews by a Spot's id
 router.get('/:spotId/reviews', async (req, res, next) => {
