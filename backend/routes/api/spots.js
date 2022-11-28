@@ -359,7 +359,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
                     delete userDataValues.username
                 })
 
-                res.json({'Bookings': bookingsForCustomer})
+                res.json({ 'Bookings': bookingsForCustomer })
             } else {
                 // if user is not owner
                 // delete extra info
@@ -371,16 +371,16 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
                     delete booking.dataValues.createdAt
                     delete booking.dataValues.updatedAt
                 })
-                res.json({'Bookings': bookingsForCustomer})
+                res.json({ 'Bookings': bookingsForCustomer })
             }
         } else {
             // no bookings
             res.json('No bookings yet!')
         }
-    } else{
+    } else {
         // no spot
         res.statusCode = 404;
-         return res.json({
+        return res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
         })
@@ -586,6 +586,116 @@ router.get('/:spotId', async (req, res, next) => {
 // get all spots
 router.get('/', async (req, res, next) => {
 
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
+
+    if(page){
+        page = Number(page)
+        if(isNaN(page) || page < 1){
+            res.statusCode = 400;
+            return res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                  "page": "Page must be greater than or equal to 1",
+                }
+            })
+        }
+    }
+    if(size){
+        size = Number(size)
+        if(isNaN(size) || size < 1){
+            res.statusCode = 400;
+            return res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                    "size": "Size must be greater than or equal to 1",
+                }
+            })
+        }
+    }
+    if(minLat){
+        minLat = Number(minLat)
+        if(isNaN(minLat)){
+            res.statusCode = 400;
+            return res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                    "minLat": "Minimum latitude is invalid",
+                }
+            })
+        }
+    }
+    if(maxLat){
+        maxLat = Number(maxLat)
+        if(isNaN(maxLat)){
+            res.statusCode = 400;
+            return res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                    "maxLat": "Maximum latitude is invalid",
+                }
+            })
+        }
+    }
+    if(minLng){
+        minLng = Number(minLng)
+        if(isNaN(minLng)){
+            res.statusCode = 400;
+            return res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                    "minLng": "Minimum longitude is invalid",
+                }
+            })
+        }
+    }
+    if(maxLng){
+        maxLng = Number(maxLng)
+        if(isNaN(maxLng)){
+            res.statusCode = 400;
+            return res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                    "maxLat": "Maximum longitude is invalid",
+                }
+            })
+        }
+    }
+    if(minPrice){
+        minPrice = Number(minPrice)
+        if(isNaN(minPrice) || minPrice < 0){
+            res.statusCode = 400;
+            return res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                    "minPrice": "Minimum price must be greater than or equal to 0"
+                }
+            })
+        }
+    }
+    if(maxPrice){
+        maxPrice = Number(maxPrice)
+        if(isNaN(maxPrice) || maxPrice < 0){
+            res.statusCode = 400;
+            return res.json({
+                "message": "Validation Error",
+                "statusCode": 400,
+                "errors": {
+                    "maxPrice": "Maximum price must be greater than or equal to 0",
+                }
+            })
+        }
+    }
+
+    if (isNaN(page) || page < 1) page = 1;
+    if (isNaN(size) || size < 1) size = 20;
+
     const spots = await Spot.findAll({
         include: [
             {
@@ -594,7 +704,9 @@ router.get('/', async (req, res, next) => {
             {
                 model: SpotImage
             }
-        ]
+        ],
+        limit: size,
+        offset: size * (page - 1)
     })
     let houseList = []
     spots.forEach(house => {
@@ -611,7 +723,7 @@ router.get('/', async (req, res, next) => {
             count++
         }
         let avg = sum / count
-        console.log('(sum/count)', (sum / count))
+        // console.log('(sum/count)', (sum / count))
         if (isNaN(avg)) {
             house.avgRating = 'No ratings yet!'
         } else {
@@ -621,7 +733,7 @@ router.get('/', async (req, res, next) => {
     })
     houseList.forEach(house => {
         house.SpotImages.forEach(image => {
-            console.log('image', image)
+            // console.log('image', image)
             if (image.preview) {
                 house.previewImage = image.url
             } else {
@@ -635,7 +747,13 @@ router.get('/', async (req, res, next) => {
     })
 
     res.status = 200
-    res.json({ "Spots": houseList })
+    res.json(
+    {
+        "Spots": houseList,
+        page,
+        size
+    })
+
 })
 
 //      DELETE
