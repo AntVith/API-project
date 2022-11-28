@@ -186,7 +186,7 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) =>{
               })
         }
     } else{
-        res.statusCode = 403;
+        res.statusCode = 404;
         res.json({
             "message": "Review couldn't be found",
             "statusCode": 404
