@@ -99,7 +99,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
 
     if (booking) {
         // if the bookings belongs to user
-        if (userId === booking.id) {
+        if (userId === booking.userId) {
             // get spotId of the bookings
             const spotIdOfBooking = booking.spotId
 
@@ -110,7 +110,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
                 }
             })
             for (let booking of currentBookings) {
-                console.log({ 'booking': booking })
+                // console.log({ 'booking': booking })
                 // below gets milliseconds from 1970 to start and end dates in booking for that spot
                 const timeToBookingStart = booking.startDate.getTime()
                 const timeToBookingEnd = booking.endDate.getTime()

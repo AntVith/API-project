@@ -54,7 +54,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
             if (bookingsForSpot) {
                 // check to see if the requested days conflict with an existing booking
                 for (let booking of bookingsForSpot) {
-                    console.log({ 'booking': booking })
+                    // console.log({ 'booking': booking })
                     // below gets milliseconds from 1970 to start and end dates in booking for that spot
                     const timeToBookingStart = booking.startDate.getTime()
                     const timeToBookingEnd = booking.endDate.getTime()
