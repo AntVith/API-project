@@ -1,4 +1,6 @@
 #root {
     display: flex;
     flex-direction: column;
+    color: blue;
+    padding: 30px;
 }
