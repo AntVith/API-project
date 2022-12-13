@@ -1,0 +1,41 @@
+import {useDispatch, useSelector} from 'react-redux'
+import {useEffect} from 'react'
+import {getAllSpots} from '../../store/spots'
+import { NavLink } from 'react-router-dom'
+import './Spots.css'
+const HomePage = () => {
+
+const dispatch = useDispatch()
+
+const spots = useSelector(state => {
+    return state.spots.allSpots
+})
+const spotsInfo = Object.values(spots)
+
+useEffect(() => {
+    dispatch(getAllSpots())
+}, [dispatch])
+
+    return (
+    <div id='allSpots'>
+        {spotsInfo.map(spot => (
+
+            <NavLink
+            to={`/spots/${spot.id}`}
+            id={spot.address}
+            style={{ textDecoration: 'none' }}>
+                <div>{spot.previewImage} </div>
+                <div id='topLineSpotCard'>
+                    <div>{spot.city}, {spot.state}</div>
+                    <div>{spot.avgRating}</div>
+                </div>
+                <div>${spot.price} night </div>
+            </NavLink>
+        ))}
+    </div>
+    )
+}
+
+
+
+export default HomePage
