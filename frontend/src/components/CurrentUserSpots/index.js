@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {useEffect} from 'react'
 import { getAllSpots, DeleteOneSpot } from '../../store/spots';
+import { useHistory } from 'react-router-dom';
 import './currentUserSpots.css'
 
 const CurrentUserSpots = () =>{
@@ -20,6 +21,11 @@ const dispatch = useDispatch()
 useEffect(() => {
     dispatch(getAllSpots())
 }, [dispatch])
+
+const history = useHistory()
+const editSpot = async (id) =>{
+    history.push(`/spots/${id}/edit`)
+}
 
 let message;
 const DeleteSpot = async (id) =>{
@@ -49,7 +55,9 @@ console.log('message', message)
                     <div>{spot.avgRating}</div>
                 </div>
                 <div className='editORdelete'>
-                <button>Edit</button>
+                <button
+                onClick={() => editSpot(spot.id)}
+                >Edit</button>
                 <button
                 onClick={() => DeleteSpot(spot.id)}
                 >Delete</button>

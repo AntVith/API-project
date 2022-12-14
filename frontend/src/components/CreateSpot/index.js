@@ -34,7 +34,7 @@ function CreateSpot() {
          if(!country) errors.push('invalid country')
          if(!name) errors.push('invalid name')
          if(!description) errors.push('invalid description')
-         if(!price || price < 1) errors.push('invalid price')
+         if(!price || price < 1) errors.push('Price needs to be more than $0')
          if(!spotImage) errors.push('invalid image')
 
          setValidationErrors(errors)
@@ -84,20 +84,23 @@ function CreateSpot() {
         }
     }
 
-
+console.log('errors', validationErrors)
 return (
     <div id='formDiv'>
+
         <h1> SquareBnb it, let's get this bread!</h1>
+        <ul className='errors'>
+        {validationErrors.map(error => (
+
+            <li key={error}>
+            {console.log('error inside map', error)}
+            {error}
+            </li>
+            ))}
+        </ul>
         <form
         id='createForm'
         onSubmit={handleSubmit}>
-        <ul className='errors'>
-            {validationErrors.map(error => {
-                <li key={error}>
-                {error}
-                </li>
-            })}
-        </ul>
         <label>
             Address:
             <input

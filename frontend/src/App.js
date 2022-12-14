@@ -8,6 +8,7 @@ import {Route} from 'react-router-dom'
 import SpotDetail from './components/SpotDetails'
 import CreateSpot from "./components/CreateSpot";
 import CurrentUserSpots from "./components/CurrentUserSpots";
+import EditSpot from "./components/EditSpot";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,12 @@ function App() {
           exact
           path='/spots/edit'>
             <CurrentUserSpots />
+          </Route>
+
+          <Route
+          exact
+          path='/spots/:spotId/edit'>
+            <EditSpot />
           </Route>
 
           <Route

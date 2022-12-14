@@ -24,6 +24,24 @@ const deleteASpot = (id) => ({
     type: DELETE_SPOT,
     id
 })
+const EDIT_SPOT = '/spots/EDIT_SPOT'
+const editASpot = (editedSpot) => ({
+    type: EDIT_SPOT,
+    editedSpot
+})
+
+export const EditYourSpot = (spotId, editedSpot) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method:'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editedSpot)
+    })
+    if(response.ok){
+        const editedSpot = await response.json()
+        dispatch(editASpot(editedSpot))
+        return editedSpot
+    }
+}
 
 export const DeleteOneSpot = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${id}`, {
@@ -100,8 +118,12 @@ const spotReducer = (state = initialState, action) =>{
             action.payload.Spots.forEach(spot => copy.allSpots[spot.id] = spot)
             return copy
         case LOAD_ONE_SPOT:
-            const copy1 = {allSpots:{}, singleSpot:{}}
-            copy1.singleSpot = action.payload
+            // const copy1 = {allSpots:{}, singleSpot:{}}
+            // copy1.singleSpot = action.payload
+            // return copy1
+            const copy1 ={...state}
+            const singleSpotData = action.payload
+            copy1.singleSpot = singleSpotData
             return copy1
         case CREATE_SPOT:
             const copy2 = {...state}
@@ -110,14 +132,17 @@ const spotReducer = (state = initialState, action) =>{
             copy2.allSpots = allSpotsCopy
             return copy2
         case DELETE_SPOT:
-            console.log('made to reducer')
             const copy3 = {...state}
             const allSpotsCopy1 = {...state.allSpots}
-            console.log('pre delete', allSpotsCopy1)
             delete allSpotsCopy1[action.id]
-            console.log('post delete', allSpotsCopy1)
             copy3.allSpots = allSpotsCopy1
             return copy3
+        case EDIT_SPOT:
+            const copy4 = {...state}
+            const allSpotsCopy2 = {...state.allSpots}
+            allSpotsCopy2[action.editedSpot.id] = action.editedSpot
+            copy4.allSpots = allSpotsCopy2
+            return copy4
         default:
             return state
     }

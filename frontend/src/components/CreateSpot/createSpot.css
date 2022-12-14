@@ -1,4 +1,15 @@
+#formDiv{
+    box-sizing: border-box;
+    height:fit-content;
+    width:auto;
+}
 #createForm{
+    box-sizing: border-box;
     display:flex;
     flex-direction: column;
+    overflow-y:auto;
+    height: fit-content;
+}
+.errors {
+    color: red;
 }

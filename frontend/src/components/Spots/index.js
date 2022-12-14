@@ -23,6 +23,7 @@ useEffect(() => {
             <NavLink
             to={`/spots/${spot.id}`}
             id={spot.address}
+            key={spot.id}
             style={{ textDecoration: 'none' }}>
                 <img
                 className='image'
