@@ -6,6 +6,8 @@ import Navigation from "./components/Navigation";
 import HomePage from './components/Spots'
 import {Route} from 'react-router-dom'
 import SpotDetail from './components/SpotDetails'
+import CreateSpot from "./components/CreateSpot";
+import CurrentUserSpots from "./components/CurrentUserSpots";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,16 +21,31 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+
           <Route
           exact
           path='/'>
             <HomePage />
           </Route>
+
+          <Route
+          exact
+          path='/spots'>
+            <CreateSpot />
+          </Route>
+
+          <Route
+          exact
+          path='/spots/edit'>
+            <CurrentUserSpots />
+          </Route>
+
           <Route
           exact
           path='/spots/:spotId'>
             <SpotDetail />
           </Route>
+
         </Switch>
       )}
     </>

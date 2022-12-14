@@ -24,7 +24,10 @@ useEffect(() => {
             to={`/spots/${spot.id}`}
             id={spot.address}
             style={{ textDecoration: 'none' }}>
-                <div>{spot.previewImage} </div>
+                <img
+                className='image'
+                // id={`image${spot.id}`}
+                src={spot.previewImage}></img>
                 <div id='topLineSpotCard'>
                     <div>{spot.city}, {spot.state}</div>
                     <div>{spot.avgRating}</div>

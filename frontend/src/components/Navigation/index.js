@@ -8,16 +8,31 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
-      </li>
+    <div id='NavBar'>
+      <div id='HomeButton'>
+        <NavLink
+        id='HomeButtonNavLink'
+        style={{ textDecoration: 'none' }}
+        exact to="/">SquareBnb</NavLink>
+      </div>
+      <div id='RightSide'>
+      <NavLink
+      id='Edit'
+      style={{ textDecoration: 'none' }}
+      exact to='/spots/edit'
+      >Edit your Spots</NavLink>
+      <NavLink
+      id='Hosting'
+      style={{ textDecoration: 'none' }}
+      exact to='/spots'
+      >Switch to Hosting</NavLink>
       {isLoaded && (
-        <li>
+        <div id='ProfileButton'>
           <ProfileButton user={sessionUser} />
-        </li>
+        </div>
       )}
-    </ul>
+      </div>
+    </div>
   );
 }
 

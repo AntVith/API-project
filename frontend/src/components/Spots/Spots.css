@@ -6,3 +6,16 @@
     margin:35px;
     text-decoration: none;
 }
+
+/* #image1, #image2, #image3, #image4, #image5 {
+    width:335px;
+    height:335px;
+    border-radius: 13px;
+    object-fit: cover;
+} */
+.image{
+    width:335px;
+    height:335px;
+    border-radius: 13px;
+    object-fit: cover;
+}
