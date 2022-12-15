@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {useEffect} from 'react'
 import { getSpotById } from '../../store/spots';
@@ -21,16 +21,19 @@ const reviewsResponse = useSelector(state => {
 const reviews = Object.values(reviewsResponse)
 // console.log('review component', reviewsResponse)
 // console.log('review', reviews)
+// const singleReview = reviews[0]
 
 useEffect(() => {
     dispatch(getSpotById(spotId))
     dispatch(oneSpotsReviews(spotId))
 }, [dispatch, spotId])
 
+console.log('allreviews', reviews)
 
 if(!spot.SpotImages) return null
 if(!spot.Owner) return null
-if(!reviewsResponse) return null
+
+
     return (
         <div className='wholePage'>
         <div id={spot.id}
@@ -55,6 +58,9 @@ if(!reviewsResponse) return null
             ))}
             </div>
             <div id='intro'>Beautiful spot hosted by {spot.Owner.firstName}</div>
+            <NavLink
+            to={`/reviews/${spot.id}/new`}
+            >Post a Review!</NavLink>
             <div id='description'>{spot.description}</div>
 
             <div id='info'>
@@ -79,13 +85,17 @@ if(!reviewsResponse) return null
 
             </div>
             <div id='reviews'>
+                { reviews.length > 0 &&
+                <div>
                 {reviews.map(review => (
-                    <div className='reviewInfo'>
+                    <div className='reviewInfo' key={review.review}>
                         <div>{review.User.firstName}</div>
                         <div>{review.stars} </div>
                         <div>{review.review}</div>
                     </div>
                 ))}
+                </div>}
+
             </div>
         </div>
         </div>

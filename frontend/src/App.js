@@ -10,7 +10,7 @@ import CreateSpot from "./components/CreateSpot";
 import CurrentUserSpots from "./components/CurrentUserSpots";
 import EditSpot from "./components/EditSpot";
 import UserReviews from "./components/UserReviews";
-
+import CreateReview from "./components/CreateReview";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +35,12 @@ function App() {
           exact
           path='/reviews'>
             <UserReviews />
+          </Route>
+
+          <Route
+          exact
+          path='/reviews/:spotId/new'>
+            <CreateReview />
           </Route>
 
           <Route
