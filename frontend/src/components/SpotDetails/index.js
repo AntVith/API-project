@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {useEffect} from 'react'
 import { getSpotById } from '../../store/spots';
-
+import './spotDetails.css'
 
 const SpotDetail = () =>{
 
@@ -25,19 +25,53 @@ if(!spot.SpotImages) return null
 if(!spot.Owner) return null
 
     return (
-        <div id={spot.id}>
-            <div>{spot.SpotImages.map(image => (
+        <div className='wholePage'>
+        <div id={spot.id}
+        className='SpotDetailCard'
+        >
+            <div id='aboveImage'>
+                <div id='spotName'>{spot.name}</div>
+                <div id='reviewInfo'>
+                <div id='starRating'>
+                <i id='star'
+                className="fa-solid fa-star"></i>
+                    {spot.avgStarRating}</div>
+                <div id='numReviews'>{spot.numReviews} reviews</div>
+                <div id='location'>{spot.city}, {spot.state}, {spot.country}</div>
+                </div>
+            </div>
+            <div id='images'>{spot.SpotImages.map(image => (
                 <img
                 id={`image${spot.id}`}
+                className='spotImages'
                 src={image.url}></img>
             ))}
             </div>
-            {spot.name}
-            <div>{spot.avgStarRating} star rating</div>
-            <div>{spot.numReviews} reviews</div>
-            <div>{spot.city}, {spot.state}, {spot.country}</div>
-            <div>Beautiful spot hosted by {spot.Owner.firstName}</div>
-            <div>{spot.description}</div>
+            <div id='intro'>Beautiful spot hosted by {spot.Owner.firstName}</div>
+            <div id='description'>{spot.description}</div>
+
+            <div id='info'>
+                <div id='checkin'>
+                <i
+                id='doorImage'
+                className="fa-solid fa-door-open"></i>
+                <div id='checkinText'>
+                    <div>Self check-in</div>
+                    <div>Check yourself in with the lockbox</div>
+                </div>
+                </div>
+                <div id='second'>
+
+                <i
+                id='calender'
+                className="fa-solid fa-calendar-days"></i>
+                <div id='cancellation'>
+                    <div>Free cancellation for 48 hours</div>
+                </div>
+                </div>
+
+            </div>
+        </div>
         </div>
     )
 }

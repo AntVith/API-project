@@ -17,6 +17,7 @@ useEffect(() => {
 }, [dispatch])
 
     return (
+        <div id='homePage'>
     <div id='allSpots'>
         {spotsInfo.map(spot => (
 
@@ -31,11 +32,19 @@ useEffect(() => {
                 src={spot.previewImage}></img>
                 <div id='topLineSpotCard'>
                     <div>{spot.city}, {spot.state}</div>
+                    <div id='rating'>
+                    <i
+                    id='star'
+                    className="fa-solid fa-star"></i>
                     <div>{spot.avgRating}</div>
+                    </div>
                 </div>
-                <div>${spot.price} night </div>
+                <div
+                id='price'
+                >${spot.price} night </div>
             </NavLink>
         ))}
+    </div>
     </div>
     )
 }

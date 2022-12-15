@@ -13,9 +13,26 @@
     border-radius: 13px;
     object-fit: cover;
 } */
+#topLineSpotCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: black;
+    margin-bottom: 10px;
+}
 .image{
     width:335px;
     height:335px;
     border-radius: 13px;
     object-fit: cover;
+}
+
+#rating{
+    display: flex;
+    flex-direction: row;
+    margin-right:40px;
+}
+#price{
+    color:black;
+    margin-bottom: 40px;
 }

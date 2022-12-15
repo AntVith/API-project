@@ -52,7 +52,9 @@ console.log('message', message)
                 <div className='infoWithEditORdelete'>
                 <div id='topLineSpotCard'>
                     <div>{spot.city}, {spot.state}</div>
-                    <div>{spot.avgRating}</div>
+                    {/* <div>
+                    <i className="fa-solid fa-star"></i>
+                        {spot.avgRating}</div> */}
                 </div>
                 <div className='editORdelete'>
                 <button

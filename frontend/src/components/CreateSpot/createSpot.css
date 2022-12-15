@@ -1,7 +1,22 @@
+.pageDiv{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #formDiv{
     box-sizing: border-box;
     height:fit-content;
-    width:auto;
+    width:600px;
+    box-shadow: 12px 12px  black;
+    border: solid red;
+    border-radius:20px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
 }
 #createForm{
     box-sizing: border-box;
@@ -9,7 +24,30 @@
     flex-direction: column;
     overflow-y:auto;
     height: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+#title{
+    margin-top: 20px;
+    font-size: 30px;
+    color: red;
 }
 .errors {
-    color: red;
+    color: black;
+}
+
+.inputArea{
+    border-radius: 15px;
+    margin-bottom: 5px;
+    width:300px;
+    height:25px;
+}
+#submitButton{
+    border-radius: 15px;
+    margin-bottom: 20px;
+    width:300px;
+    height:25px;
+    background-color: red;
+    color:white;
+    font-weight: bold;
 }

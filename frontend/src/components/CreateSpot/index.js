@@ -18,7 +18,7 @@ function CreateSpot() {
     // const [lng, setLng] = useState(0)
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [price, setPrice] = useState(0)
+    const [price, setPrice] = useState('')
     const [spotImage, setSpotImage] = useState('')
     const [validationErrors, setValidationErrors] = useState([])
 
@@ -86,13 +86,15 @@ function CreateSpot() {
 
 
 return (
+    <div className='pageDiv'>
     <div id='formDiv'>
 
-        <h1> SquareBnb it, let's get this bread!</h1>
+        <text
+        id='title'
+        > SquareBnb it, let's get this bread!</text>
         <ul className='errors'>
         {validationErrors.map(error => (
             <li key={error}>
-            {console.log('error inside map', error)}
             {error}
             </li>
             ))}
@@ -104,6 +106,7 @@ return (
             Address:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setAddress(e.target.value)}
             value={address}
             placeholder='Address'
@@ -114,6 +117,7 @@ return (
             City:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setCity(e.target.value)}
             value={city}
             placeholder='City'
@@ -124,6 +128,7 @@ return (
             State:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setState(e.target.value)}
             value={state}
             placeholder='State'
@@ -134,6 +139,7 @@ return (
             Country:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setCountry(e.target.value)}
             value={country}
             placeholder='Country'
@@ -144,6 +150,7 @@ return (
             Name:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setName(e.target.value)}
             value={name}
             placeholder='Name'
@@ -154,37 +161,44 @@ return (
             Description:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setDescription(e.target.value)}
             value={description}
             placeholder='Description'
-            name='country'
+            name='description'
             />
         </label>
          <label>
             Price:
             <input
             type='integer'
+            className='inputArea'
             onChange={(e) => setPrice(e.target.value)}
             value={price}
-            name='country'
+            placeholder='Price'
+            name='price'
             />
         </label>
          <label>
             The Image-URL for your Spot:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setSpotImage(e.target.value)}
             value={spotImage}
+            placeholder='Image-URL for your Spot'
             name='spotImage'
             />
         </label>
             <label>
             <button
              type='submit'
+             id='submitButton'
              disabled={validationErrors.length > 0}
              >Submit</button>
         </label>
         </form>
+    </div>
     </div>
 )
 

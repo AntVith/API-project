@@ -10,13 +10,19 @@ import './editSpot.css'
 function EditSpot() {
     const {spotId} = useParams()
 
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
-    const [country, setCountry] = useState('')
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState(0)
+    const spots = useSelector(state =>{
+        return state.spots.allSpots
+    })
+
+    const spotToEdit = spots[spotId]
+
+    const [address, setAddress] = useState(spotToEdit.address)
+    const [city, setCity] = useState(spotToEdit.city)
+    const [state, setState] = useState(spotToEdit.state)
+    const [country, setCountry] = useState(spotToEdit.country)
+    const [name, setName] = useState(spotToEdit.name)
+    const [description, setDescription] = useState(spotToEdit.description)
+    const [price, setPrice] = useState(spotToEdit.price)
     const [validationErrors, setValidationErrors] = useState([])
 
     const dispatch = useDispatch()
@@ -40,11 +46,7 @@ function EditSpot() {
         dispatch(getAllSpots())
     }, [dispatch])
 
-   const spots = useSelector(state =>{
-    return state.spots.allSpots
-   })
 
-   const spotToEdit = spots[spotId]
 
 
    const handleSubmit = async (e) => {
@@ -72,8 +74,11 @@ function EditSpot() {
 if(!spotToEdit) return null
 
     return (
-<div id='formDiv'>
-        <h1> Edit your spot below!</h1>
+        <div className='pageDiv'>
+        <div id='formDiv'>
+        <text
+        id='editTitle'
+        > Edit your spot below!</text>
         <ul className='errors'>
             {validationErrors.map(error => (
                 <li key={error}>
@@ -82,15 +87,16 @@ if(!spotToEdit) return null
             ))}
         </ul>
         <form
-        id='editForm'
+        id='createForm'
         onSubmit={handleSubmit}>
         <label>
             Address:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setAddress(e.target.value)}
             value={address}
-            placeholder={spotToEdit.address}
+            // placeholder={spotToEdit.address}
             name='address'
             />
         </label>
@@ -98,9 +104,10 @@ if(!spotToEdit) return null
             City:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setCity(e.target.value)}
             value={city}
-            placeholder={spotToEdit.city}
+            // placeholder={spotToEdit.city}
             name='city'
             />
         </label>
@@ -108,9 +115,10 @@ if(!spotToEdit) return null
             State:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setState(e.target.value)}
             value={state}
-            placeholder={spotToEdit.state}
+            // placeholder={spotToEdit.state}
             name='state'
             />
         </label>
@@ -118,9 +126,10 @@ if(!spotToEdit) return null
             Country:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setCountry(e.target.value)}
             value={country}
-            placeholder={spotToEdit.country}
+            // placeholder={spotToEdit.country}
             name='country'
             />
         </label>
@@ -128,9 +137,10 @@ if(!spotToEdit) return null
             Name:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setName(e.target.value)}
             value={name}
-            placeholder={spotToEdit.name}
+            // placeholder={spotToEdit.name}
             name='country'
             />
         </label>
@@ -138,9 +148,10 @@ if(!spotToEdit) return null
             Description:
             <input
             type='text'
+            className='inputArea'
             onChange={(e) => setDescription(e.target.value)}
             value={description}
-            placeholder={spotToEdit.description}
+            // placeholder={spotToEdit.description}
             name='description'
             />
         </label>
@@ -148,21 +159,23 @@ if(!spotToEdit) return null
             Price:
             <input
             type='integer'
+            className='inputArea'
             onChange={(e) => setPrice(e.target.value)}
             value={price}
-            placeholder={spotToEdit.price}
+            // placeholder={spotToEdit.price}
             name='price'
             />
         </label>
             <label>
             <button
              type='submit'
+             id='submitButton'
              disabled={validationErrors.length > 0}
              >Submit</button>
         </label>
         </form>
     </div>
-
+    </div>
     )
 
 }
