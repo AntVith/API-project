@@ -9,6 +9,8 @@ import SpotDetail from './components/SpotDetails'
 import CreateSpot from "./components/CreateSpot";
 import CurrentUserSpots from "./components/CurrentUserSpots";
 import EditSpot from "./components/EditSpot";
+import UserReviews from "./components/UserReviews";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +29,12 @@ function App() {
           exact
           path='/'>
             <HomePage />
+          </Route>
+
+          <Route
+          exact
+          path='/reviews'>
+            <UserReviews />
           </Route>
 
           <Route

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {useEffect} from 'react'
 import { getSpotById } from '../../store/spots';
+import {oneSpotsReviews} from '../../store/reviews'
 import './spotDetails.css'
 
 const SpotDetail = () =>{
@@ -14,16 +15,22 @@ const spot = useSelector(state => {
     return state.spots.singleSpot
 })
 // console.log('spot', spot)
+const reviewsResponse = useSelector(state => {
+    return state.reviews.spot
+})
+const reviews = Object.values(reviewsResponse)
+// console.log('review component', reviewsResponse)
+// console.log('review', reviews)
 
 useEffect(() => {
     dispatch(getSpotById(spotId))
+    dispatch(oneSpotsReviews(spotId))
 }, [dispatch, spotId])
-// console.log('images', spot.SpotImages)
-// console.log('owner', spot.Owner)
+
 
 if(!spot.SpotImages) return null
 if(!spot.Owner) return null
-
+if(!reviewsResponse) return null
     return (
         <div className='wholePage'>
         <div id={spot.id}
@@ -70,6 +77,15 @@ if(!spot.Owner) return null
                 </div>
                 </div>
 
+            </div>
+            <div id='reviews'>
+                {reviews.map(review => (
+                    <div className='reviewInfo'>
+                        <div>{review.User.firstName}</div>
+                        <div>{review.stars} </div>
+                        <div>{review.review}</div>
+                    </div>
+                ))}
             </div>
         </div>
         </div>
