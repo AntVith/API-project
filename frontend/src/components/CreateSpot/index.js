@@ -84,14 +84,13 @@ function CreateSpot() {
         }
     }
 
-console.log('errors', validationErrors)
+
 return (
     <div id='formDiv'>
 
         <h1> SquareBnb it, let's get this bread!</h1>
         <ul className='errors'>
         {validationErrors.map(error => (
-
             <li key={error}>
             {console.log('error inside map', error)}
             {error}

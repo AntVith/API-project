@@ -7,6 +7,9 @@ import './Navigation.css';
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
+  const disableNavLinks = (e) => {
+    if(!sessionUser) e.preventDefault()
+  }
   return (
     <div id='NavBar'>
       <div id='HomeButton'>
@@ -20,11 +23,13 @@ function Navigation({ isLoaded }){
       id='Edit'
       style={{ textDecoration: 'none' }}
       exact to='/spots/edit'
+      onClick={disableNavLinks}
       >Edit your Spots</NavLink>
       <NavLink
       id='Hosting'
       style={{ textDecoration: 'none' }}
       exact to='/spots'
+      onClick={disableNavLinks}
       >Switch to Hosting</NavLink>
       {isLoaded && (
         <div id='ProfileButton'>
