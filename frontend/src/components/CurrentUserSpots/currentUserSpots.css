@@ -1,0 +1,29 @@
+.wholePage{
+    align-items: center;
+
+}
+.allUserSpots{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    margin:35px;
+    color:black
+}
+
+.infoWithEditORdelete{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 40px;
+}
+.image{
+    width:335px;
+    height:335px;
+    border-radius: 13px;
+    object-fit: cover;
+    padding-right: 40px;
+}
+#star{
+    margin-right: 5px;
+}

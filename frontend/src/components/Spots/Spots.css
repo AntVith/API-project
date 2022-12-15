@@ -1,0 +1,38 @@
+#allSpots{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    margin:35px;
+    text-decoration: none;
+}
+
+/* #image1, #image2, #image3, #image4, #image5 {
+    width:335px;
+    height:335px;
+    border-radius: 13px;
+    object-fit: cover;
+} */
+#topLineSpotCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: black;
+    margin-bottom: 10px;
+}
+.image{
+    width:335px;
+    height:335px;
+    border-radius: 13px;
+    object-fit: cover;
+}
+
+#rating{
+    display: flex;
+    flex-direction: row;
+    margin-right:40px;
+}
+#price{
+    color:black;
+    margin-bottom: 40px;
+}

@@ -1,0 +1,15 @@
+#editForm{
+    display:flex;
+    flex-direction: column;
+    overflow-y:auto
+    /* height: */
+}
+#editTitle{
+    margin-top: 20px;
+    font-size: 30px;
+    color: red;
+}
+
+.errors {
+    color: black;
+}

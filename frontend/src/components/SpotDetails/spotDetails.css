@@ -1,0 +1,98 @@
+.wholePage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.SpotDetailCard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%
+}
+#aboveImage{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: flex-start;
+    color:black;
+    margin-bottom: 25px;
+
+}
+#spotName{
+    display: flex;
+    font-size:30px;
+    color:black;
+    align-items: flex-start;
+    margin-bottom: 10px;;
+    margin-top: 15px;
+}
+#star{
+    padding-right: 5px
+}
+#starRating{
+    padding-right: 10px;
+    font-size: 15px;
+}
+#reviewInfo{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+}
+#numReviews{
+    padding-right: 10px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+#location{
+    padding-right: 10px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+#images{
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+}
+.spotImages{
+    height:500px;
+}
+
+#intro{
+    font-size:25px;
+    align-self: flex-start;
+    color:black;
+    margin-bottom: 5px;
+}
+#description{
+    font-size: 18px;;
+    align-self: flex-start;
+    color:black;
+    margin-bottom: 20px;
+}
+#info{
+    align-self: flex-start;
+    border-top: 1px solid black;
+}
+#checkin{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+#doorImage{
+    margin-right: 10px;
+    color: black;
+    align-self: center;
+}
+#checkinText{
+    color:black;
+}
+#second{
+    display: flex;
+    flex-direction: row;
+    color: black
+}
+#calender{
+    margin-right: 10px;
+}
