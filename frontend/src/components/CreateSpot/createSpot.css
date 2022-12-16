@@ -37,15 +37,15 @@
 }
 
 .inputArea{
-    border-radius: 15px;
-    margin-bottom: 5px;
+    border-radius: 5px;
+    /* margin-bottom: 5px; */
     width:300px;
     height:25px;
 }
 #submitButton{
-    border-radius: 15px;
+    border-radius: 5px;
     margin-bottom: 20px;
-    width:300px;
+    width:310px;
     height:25px;
     background-color: red;
     color:white;

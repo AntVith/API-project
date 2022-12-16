@@ -5,6 +5,7 @@ import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { NavLink } from 'react-router-dom';
+import './ProfileButton.css'
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -46,51 +47,62 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
-      <i className="fa-solid fa-bars"></i>
+    <div id='ProfileDropdown'>
+      <button id='ProfileButton' onClick={openMenu}>
+      <i id='bars' className="fa-solid fa-bars"></i>
         <i className="fa-regular fa-circle-user fa-xl" />
       </button>
-      <ul className={ulClassName} ref={ulRef}>
+      <ul  className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
+          <div id='ProfileList'>
+            <div id='username'>{user.username}</div>
+            <div id='governmentName'>{user.firstName} {user.lastName}</div>
+            <div id='email'>{user.email}</div>
+            <div id='mySpots' >
               {sessionUser &&
                 <NavLink
-                id='Edit'
+                id='userSpots'
                 style={{ textDecoration: 'none' }}
                 exact to='/spots/edit'
                 onClick={disableNavLinks}
-                >My spots</NavLink>
+                >My Spots</NavLink>
               }
+            </div>
+              <div id='userReviews'>
               {sessionUser &&
                 <NavLink
                 id='reviewNavLink'
                 style={{ textDecoration: 'none' }}
                 to='/reviews'
-                >My reviews</NavLink>
+                >My Reviews</NavLink>
               }
+              </div>
+              <button id='logOutButton' onClick={logout}>Log Out</button>
 
-              <button onClick={logout}>Log Out</button>
-            </li>
+          </div>
           </>
         ) : (
-          <>
+          <div id='unSignedIn'>
+            <div>
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
             />
+            </div>
+            <div>
             <OpenModalMenuItem
               itemText="Sign Up"
+              id='Sign-up'
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
-          </>
+            </div>
+          </div>
         )}
       </ul>
+      </div>
     </>
   );
 }

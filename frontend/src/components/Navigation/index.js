@@ -20,12 +20,13 @@ function Navigation({ isLoaded }){
       </div>
       <div id='RightSide'>
 
+      {sessionUser &&
       <NavLink
       id='Hosting'
       style={{ textDecoration: 'none' }}
       exact to='/spots'
       onClick={disableNavLinks}
-      >Squarebnb your home</NavLink>
+      >Squarebnb your home</NavLink>}
       {isLoaded && (
         <div id='ProfileButton'>
           <ProfileButton user={sessionUser} />
