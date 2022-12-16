@@ -1,14 +1,17 @@
 .wholePage{
     align-items: center;
+    width:100%
 
 }
 .allUserSpots{
     display:flex;
     flex-direction: row;
     flex-wrap:wrap;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     margin:35px;
-    color:black
+    color:black;
+    width:75%
 }
 
 .infoWithEditORdelete{
@@ -18,12 +21,12 @@
     padding-right: 40px;
 }
 .image{
-    width:335px;
-    height:335px;
+    width:189px;
+    height:189px;
     border-radius: 13px;
     object-fit: cover;
-    padding-right: 40px;
+    padding-right: 20px;
 }
 #star{
-    margin-right: 5px;
+    margin-right: 2px;
 }
