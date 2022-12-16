@@ -1,6 +1,38 @@
-#root {
+#modal-content{
+    border: solid red;
+    border-radius:20px;
+    height: 500px;
+    width: 300px;
+}
+
+#logInFull{
     display: flex;
     flex-direction: column;
-    color: blue;
-    padding: 30px;
+    /* border: solid red; */
+    /* border-radius:20px; */
+    justify-content: center;
+    align-items: center;
+}
+
+#logInForm {
+    display: flex;
+    flex-direction: column;
+    /* padding: 30px; */
+}
+#logInTitle{
+    color:red
+}
+#usernameOrEmailField, #passwordField{
+    width:200px;
+    height:30px;
+    border-radius: 5px;
+}
+
+#logInButton, #DemoUserButton{
+    margin-bottom: 10px;
+    background-color: red;;
+    color:white;
+    width:208px;
+    height:30px;
+    border-radius: 5px;
 }

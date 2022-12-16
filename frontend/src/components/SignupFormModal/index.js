@@ -31,67 +31,81 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
+    <div id='SignUpFormDiv'>
+      <h1 id='signUpTitle'>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
+        <div id='SignUpFormInputs'>
         <label>
-          Email
           <input
+          id='email'
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            placeholder='Email'
           />
         </label>
         <label>
-          Username
+
           <input
+          id='username'
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            placeholder='Username'
           />
         </label>
         <label>
-          First Name
+
           <input
+          id='firstname'
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
+            placeholder='First Name'
           />
         </label>
         <label>
-          Last Name
+
           <input
+          id='lastname'
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
+            placeholder='Last Name'
           />
         </label>
         <label>
-          Password
+
           <input
+          id='password'
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder='Password'
           />
         </label>
         <label>
-          Confirm Password
           <input
+          id='confirmpassword'
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            placeholder='Confirm Password'
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button id='SignUpSubmit' type="submit">Sign Up</button>
+        </div>
       </form>
+      </div>
     </>
   );
 }

@@ -35,6 +35,7 @@ function CreateSpot() {
          if(!name) errors.push('invalid name')
          if(!description) errors.push('invalid description')
          if(!price || price < 1) errors.push('Price needs to be more than $0')
+         if(!Number(price)) errors.push('Price needs to be a number')
          if(!spotImage) errors.push('invalid image')
 
          setValidationErrors(errors)
@@ -103,7 +104,7 @@ return (
         id='createForm'
         onSubmit={handleSubmit}>
         <label>
-            Address:
+            {/* Address: */}
             <input
             type='text'
             className='inputArea'
@@ -114,7 +115,7 @@ return (
             />
         </label>
          <label>
-            City:
+            {/* City: */}
             <input
             type='text'
             className='inputArea'
@@ -125,7 +126,7 @@ return (
             />
         </label>
          <label>
-            State:
+            {/* State: */}
             <input
             type='text'
             className='inputArea'
@@ -136,7 +137,7 @@ return (
             />
         </label>
         <label>
-            Country:
+            {/* Country: */}
             <input
             type='text'
             className='inputArea'
@@ -147,7 +148,7 @@ return (
             />
         </label>
         <label>
-            Name:
+            {/* Name: */}
             <input
             type='text'
             className='inputArea'
@@ -158,7 +159,7 @@ return (
             />
         </label>
          <label>
-            Description:
+            {/* Description: */}
             <input
             type='text'
             className='inputArea'
@@ -169,7 +170,7 @@ return (
             />
         </label>
          <label>
-            Price:
+            {/* Price: */}
             <input
             type='integer'
             className='inputArea'
@@ -180,7 +181,7 @@ return (
             />
         </label>
          <label>
-            The Image-URL for your Spot:
+            {/* The Image-URL for your Spot: */}
             <input
             type='text'
             className='inputArea'
