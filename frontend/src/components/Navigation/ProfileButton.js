@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
@@ -10,6 +10,7 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const sessionUser = useSelector(state => state.session.user);
 
   const openMenu = () => {
     if (showMenu) return;
@@ -37,6 +38,9 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
     closeMenu();
   };
+  const disableNavLinks = (e) => {
+    if(!sessionUser) e.preventDefault()
+  }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
@@ -53,11 +57,22 @@ function ProfileButton({ user }) {
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
             <li>
-              <NavLink
-              id='reviewNavLink'
-              style={{ textDecoration: 'none' }}
-              to='/reviews'
-              >Reviews</NavLink>
+              {sessionUser &&
+                <NavLink
+                id='Edit'
+                style={{ textDecoration: 'none' }}
+                exact to='/spots/edit'
+                onClick={disableNavLinks}
+                >My spots</NavLink>
+              }
+              {sessionUser &&
+                <NavLink
+                id='reviewNavLink'
+                style={{ textDecoration: 'none' }}
+                to='/reviews'
+                >My reviews</NavLink>
+              }
+
               <button onClick={logout}>Log Out</button>
             </li>
           </>

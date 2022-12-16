@@ -38,7 +38,7 @@ function EditSpot() {
         if(!name) errors.push('invalid name')
         if(!description) errors.push('invalid description')
         if(!price || price < 1) errors.push('Price needs to be more than $0')
-
+        if(!Number(price)) errors.push('Price needs to be a number')
         setValidationErrors(errors)
     }, [address, city, state, country, name, description, price])
 
@@ -90,7 +90,7 @@ if(!spotToEdit) return null
         id='createForm'
         onSubmit={handleSubmit}>
         <label>
-            Address:
+            {/* Address: */}
             <input
             type='text'
             className='inputArea'
@@ -101,7 +101,7 @@ if(!spotToEdit) return null
             />
         </label>
          <label>
-            City:
+            {/* City: */}
             <input
             type='text'
             className='inputArea'
@@ -112,7 +112,7 @@ if(!spotToEdit) return null
             />
         </label>
          <label>
-            State:
+            {/* State: */}
             <input
             type='text'
             className='inputArea'
@@ -123,7 +123,7 @@ if(!spotToEdit) return null
             />
         </label>
         <label>
-            Country:
+            {/* Country: */}
             <input
             type='text'
             className='inputArea'
@@ -134,7 +134,7 @@ if(!spotToEdit) return null
             />
         </label>
         <label>
-            Name:
+            {/* Name: */}
             <input
             type='text'
             className='inputArea'
@@ -145,7 +145,7 @@ if(!spotToEdit) return null
             />
         </label>
          <label>
-            Description:
+            {/* Description: */}
             <input
             type='text'
             className='inputArea'
@@ -156,7 +156,7 @@ if(!spotToEdit) return null
             />
         </label>
          <label>
-            Price:
+            {/* Price: */}
             <input
             type='integer'
             className='inputArea'

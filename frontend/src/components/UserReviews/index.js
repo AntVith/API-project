@@ -13,7 +13,7 @@ function UserReviews()  {
         return state.reviews.user
     })
     const reviews = Object.values(reviewObj)
-let message = ''
+    let message = ''
     const DeleteReview = async (id) => {
         const response = await dispatch(deleteAReview(id))
 

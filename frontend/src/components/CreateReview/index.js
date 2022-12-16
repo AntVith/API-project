@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from "react";
 import {CreateNewReview} from '../../store/reviews'
+import './createReview.css'
 
 function CreateReview() {
     const {spotId} = useParams()
@@ -14,18 +15,6 @@ function CreateReview() {
 
     const dispatch = useDispatch()
     const history = useHistory()
-
-    useEffect(() => {
-        let validRating = [1, 2, 3, 4, 5]
-        let errors = []
-
-        if(!review) errors.push('Need a review comment')
-        if(!stars) errors.push('Need a star Rating')
-        if(stars > 5 || stars < 0) errors.push('Star rating must be between 0 and 5')
-        if(!validRating.includes(Number(stars))) errors.push('Star rating must be a valid number')
-
-        setValidationErrors(errors)
-    }, [review, stars])
 
     const userInfo = useSelector(state => {
         return state.session.user
@@ -60,7 +49,31 @@ function CreateReview() {
         price: spotInfo.price,
         previewImage: previewImage
     }
-    // console.log('spot', Spot)
+
+    const userReviewsObj = useSelector(state => {
+        return state.reviews.user
+    })
+    const userReviews = Object.values(userReviewsObj)
+
+    let doubleReview = ''
+    userReviews.forEach(review =>{
+        if(review.spotId === Spot.id){
+            doubleReview = true
+        }
+    })
+
+    useEffect(() => {
+        let validRating = [1, 2, 3, 4, 5]
+        let errors = []
+
+        if(!review) errors.push('Need a review comment')
+        if(!stars) errors.push('Need a star Rating')
+        if(stars > 5 || stars < 0) errors.push('Star rating must be between 0 and 5')
+        if(!validRating.includes(Number(stars))) errors.push('Star rating must be a valid number')
+        if(User.id === Spot.ownerId) errors.push("Can't make a review on your own spot!")
+        if(doubleReview) errors.push('Already made a review for this spot!')
+        setValidationErrors(errors)
+    }, [review, stars])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -79,18 +92,21 @@ function CreateReview() {
 
     return (
         <div id='wholeReviewFormPage'>
+            <div id='formDiv'>
             <form
             id='reviewForm'
             onSubmit={handleSubmit}
             >
             <p id='reviewTitle'> How was your stay? </p>
+            <div id='errorMessages'>
             {validationErrors.map(error => (
                 <div
                 key={error}
                 >{error}</div>
             ))}
+            </div>
             <label>
-            Review:
+            {/* Review: */}
             <input
             type='text'
             className='inputArea'
@@ -102,7 +118,7 @@ function CreateReview() {
             </label>
 
             <label>
-            Stars:
+            {/* Stars: */}
             <input
             type='integer'
             className='inputArea'
@@ -122,6 +138,7 @@ function CreateReview() {
             </label>
 
             </form>
+            </div>
         </div>
     )
 }
