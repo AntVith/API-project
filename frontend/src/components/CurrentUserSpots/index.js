@@ -58,9 +58,11 @@ console.log('message', message)
                 </div>
                 <div className='editORdelete'>
                 <button
+                id='EditButton'
                 onClick={() => editSpot(spot.id)}
                 >Edit</button>
                 <button
+                id='DeleteButton'
                 onClick={() => DeleteSpot(spot.id)}
                 >Delete</button>
                 </div>

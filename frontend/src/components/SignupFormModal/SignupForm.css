@@ -19,7 +19,7 @@
     align-items: center;
     justify-content: center;
 }
-#confirmpassword, #password, #lastname, #firstname, #username, #email{
+#confirmpassword, #password, #lastname, #firstname, #SignUpusername, #SignUpemail{
     border-radius: 5px;
     /* margin-bottom: 5px; */
     width:300px;
@@ -30,4 +30,5 @@
     color:white;
     width:308px;
     height:25px;
+    border-radius: 5px;
 }

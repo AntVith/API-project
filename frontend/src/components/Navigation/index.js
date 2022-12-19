@@ -16,7 +16,7 @@ function Navigation({ isLoaded }){
         <NavLink
         id='HomeButtonNavLink'
         style={{ textDecoration: 'none' }}
-        exact to="/">SquareBnb</NavLink>
+        exact to="/">SquareBnB</NavLink>
       </div>
       <div id='RightSide'>
 

@@ -8,25 +8,37 @@
     flex-direction: row;
     flex-wrap:wrap;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
+    justify-content: space-between;
     margin:35px;
     color:black;
-    width:75%
+    width:83%
 }
 
 .infoWithEditORdelete{
     display:flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-right: 40px;
+    /* padding-right: 20px; */
 }
 .image{
-    width:189px;
-    height:189px;
-    border-radius: 13px;
+    width:300px;
+    height:300px;
+    border-radius: 0.5rem;
     object-fit: cover;
-    padding-right: 20px;
+    /* padding-right: 20px; */
 }
-#star{
+/* #star{
     margin-right: 2px;
+} */
+#EditButton{
+    border-radius: 5px;
+    background-color: white;
+    color: red;
+    margin-right: 5px;
+}
+#DeleteButton{
+    border-radius: 5px;
+    background-color: red;
+    color: white;
 }
