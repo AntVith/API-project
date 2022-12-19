@@ -3,16 +3,15 @@
     flex-direction: row;
     flex-wrap:wrap;
     justify-content: space-between;
-    margin:35px;
+    margin-top: 40px;
+    /* padding-left: 5px; */
+    margin-left:6%;
+    margin-right:5%;
     text-decoration: none;
+    align-items: center;
 }
 
-/* #image1, #image2, #image3, #image4, #image5 {
-    width:335px;
-    height:335px;
-    border-radius: 13px;
-    object-fit: cover;
-} */
+
 #topLineSpotCard{
     display: flex;
     flex-direction: row;
@@ -21,16 +20,19 @@
     margin-bottom: 10px;
 }
 .image{
-    width:335px;
-    height:335px;
-    border-radius: 13px;
+    width:300px;
+    height:300px;
+    border-radius: 0.5rem;
     object-fit: cover;
 }
 
 #rating{
     display: flex;
     flex-direction: row;
-    margin-right:40px;
+    /* margin-right:20px; */
+}
+#avgRating{
+    margin-top: 3px;
 }
 #price{
     color:black;

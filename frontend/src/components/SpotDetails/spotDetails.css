@@ -2,77 +2,140 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-self: center;
+    width: 100%;
 }
 .SpotDetailCard{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 70%
+    justify-content: center;
+    /* align-items: center; */
+    align-self: center;
+    /* width:  */
 }
 #aboveImage{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     align-self: flex-start;
+    justify-content: flex-start;
     color:black;
     margin-bottom: 25px;
 
 }
 #spotName{
     display: flex;
-    font-size:30px;
+    font-size:35px;
     color:black;
     align-items: flex-start;
     margin-bottom: 10px;;
     margin-top: 15px;
 }
 #star{
-    padding-right: 5px
+    /* display: flex; */
+    /* position: relative;
+    right:30%; */
+    /* flex-direction: row; */
+    padding-right: 5px;
+    /* align-items: flex-start;
+    align-self: flex-start;
+    justify-content: flex-start; */
 }
+
 #starRating{
+    display: flex;
+    flex-direction: row;
     padding-right: 10px;
-    font-size: 15px;
+    font-size: 20px;
+    /* padding-right: 200px; */
+    align-items: flex-start;
+    align-self: flex-start;
+    justify-content: flex-start;
+    /* width:50% */
 }
 #reviewInfo{
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    position: relative;
+    right:9%;
+    /* align-items: flex-start; */
+    justify-content: flex-start;
+    /* padding-right: px; */
 
+    font-size: 18px;
+
+}
+.fa-solid.fa-star::before{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    /* margin-right: 5px; */
+    /* padding-right: 20px; */
 }
 #numReviews{
     padding-right: 10px;
+    align-items: center;
     font-weight: bold;
-    text-decoration: underline;
+    align-self: center;
+    padding-right: 10px;
+    font-size: 18px;
+    /* text-decoration: underline; */
 }
 #location{
     padding-right: 10px;
     font-weight: bold;
-    text-decoration: underline;
+    align-items: center;
+    align-self: center;
+    padding-right: 10px;
+    font-size: 18px;
+    /* text-decoration: underline; */
 }
 #images{
     display: flex;
     flex-direction: row;
     align-self: flex-start;
+    /* height: 200px; */
+    object-fit: cover;
 }
 .spotImages{
     height:500px;
+    width:600px;
+    object-fit: cover;
+}
+#topLineUnderPhoto{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#PostReviewLink{
+    font-weight: bold;
+    color:red;
+    font-size: 18px;
 }
 
 #intro{
-    font-size:25px;
+    margin-top:10px;
+    font-size:26px;
     align-self: flex-start;
     color:black;
     margin-bottom: 5px;
 }
 #description{
-    font-size: 18px;;
+    font-size: 20px;;
     align-self: flex-start;
     color:black;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+}
+#pricePerNight{
+    margin-bottom: 10px;
+    font-size: 20px;;
 }
 #info{
     align-self: flex-start;
     border-top: 1px solid black;
+    border-bottom:1px solid black;
 }
 #checkin{
     display: flex;
@@ -91,8 +154,45 @@
 #second{
     display: flex;
     flex-direction: row;
-    color: black
+    color: black;
+    margin-bottom: 20px;
+    margin-top: 15px;
 }
 #calender{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    /* border-bottom: ; */
+}
+#reviewTitleSpotCard{
+    margin-top: 10px;
+    font-size: 25px;
+    margin-left: 70%;
+    /* border-bottom: 1px solid lightgray; */
+    align-self: center;
+    width: 100%;
+}
+.reviewInfo{
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+#ReviewLocation{
+    width:40%;
+    display:flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+#reviewContent{
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    align-items: flex-start;
+
+}
+#reviewFirstName{
+    font-weight: bold;
+    font-size: 20px;
+    /* border-bottom: 1px solid lightgray; */
     margin-right: 10px;
 }

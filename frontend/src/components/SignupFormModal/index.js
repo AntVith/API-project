@@ -40,7 +40,7 @@ function SignupFormModal() {
         <div id='SignUpFormInputs'>
         <label>
           <input
-          id='email'
+          id='SignUpemail'
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -51,7 +51,7 @@ function SignupFormModal() {
         <label>
 
           <input
-          id='username'
+          id='SignUpusername'
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}

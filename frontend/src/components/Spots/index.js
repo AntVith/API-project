@@ -36,7 +36,7 @@ useEffect(() => {
                     <i
                     id='star'
                     className="fa-solid fa-star"></i>
-                    <div>{spot.avgRating}</div>
+                    <div id='avgRating'>{spot.avgRating}</div>
                     </div>
                 </div>
                 <div

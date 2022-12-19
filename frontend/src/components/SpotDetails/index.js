@@ -57,11 +57,16 @@ if(!spot.Owner) return null
                 src={image.url}></img>
             ))}
             </div>
+            <div id='topLineUnderPhoto'>
             <div id='intro'>Beautiful spot hosted by {spot.Owner.firstName}</div>
             <NavLink
+            id='PostReviewLink'
+            // style={{ textDecoration: 'none' }}
             to={`/reviews/${spot.id}/new`}
-            >Post a Review!</NavLink>
+            >Post a Review</NavLink>
+            </div>
             <div id='description'>{spot.description}</div>
+            <div id='pricePerNight'>${spot.price} per night</div>
 
             <div id='info'>
                 <div id='checkin'>
@@ -84,18 +89,23 @@ if(!spot.Owner) return null
                 </div>
 
             </div>
+            <div id='ReviewLocation'>
+            <text id='reviewTitleSpotCard'>Reviews</text>
             <div id='reviews'>
                 { reviews.length > 0 &&
                 <div>
                 {reviews.map(review => (
                     <div className='reviewInfo' key={review.review}>
-                        <div>{review.User.firstName}</div>
-                        <div>{review.stars} </div>
-                        <div>{review.review}</div>
+                        <div id='reviewContent'>
+                        <div id='reviewFirstName'>{review.User.firstName}</div>
+                        {/* <div>{review.stars} </div> */}
+                        <div>--      "{review.review}"</div>
+                        </div>
                     </div>
                 ))}
                 </div>}
 
+            </div>
             </div>
         </div>
         </div>
