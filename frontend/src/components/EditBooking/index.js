@@ -1,0 +1,118 @@
+import { NavLink, useParams, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import {useEffect, useState} from 'react'
+import {getBookingsThunk, editBookingThunk} from '../../store/booking'
+import './EditBooking.css'
+
+function EditBooking(){
+
+    const {bookingId} = useParams()
+    const dispatch = useDispatch()
+    const history = useHistory()
+
+    useEffect(() => {
+        console.log('use')
+        dispatch(getBookingsThunk())
+    }, [dispatch])
+
+    const bookings = useSelector(state => state.bookings.bookings)
+    const bookingToEdit = bookings[bookingId]
+
+
+
+    const [startDate, setStartDate] = useState(bookingToEdit.startDate)
+    const [endDate, setEndDate] = useState(bookingToEdit.endDate)
+    const [errors, setErrors] = useState([])
+
+    if(!bookingToEdit) return null
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const dataErrors = []
+        const splitStart = startDate.split('-')
+        const splitEnd = endDate.split('-')
+
+        const startYear = Number(splitStart[0])
+        const startMonth = Number(splitStart[1])
+        const startDay = Number(splitStart[2])
+
+        const endYear = Number(splitEnd[0])
+        const endMonth = Number(splitEnd[1])
+        const endDay = Number(splitEnd[2])
+
+        if(endYear < startYear) dataErrors.push("End date can't be before start date")
+        if(endMonth < startMonth) dataErrors.push("End date can't be before start date")
+        if(endDay <= startDay) dataErrors.push("End date can't be before or on the  start date")
+
+        if(dataErrors.length){
+            setErrors(dataErrors)
+        } else{
+        const bookingData = {
+            startDate,
+            endDate
+        }
+        console.log('data', bookingData)
+
+        const editedBooking = await dispatch(editBookingThunk(bookingId, bookingData)).catch(
+            async (res) => {
+              const data = await res.json()
+              if(data && data.errors) setErrors(Object.values(data.errors))
+            }
+        )
+        // console.log('res', postBooking)
+
+        if(editedBooking){
+            setTimeout(() => window.location.reload(true), 1);
+            history.push('/trips')
+            // window.location.reload(true)
+
+            // dispatch(getBookingsThunk())
+        }
+    }
+    }
+    console.log('errors', errors)
+    return (
+        <div id='edit-booking-container'>
+        <div id='bookings-edit-side'>
+                <div id='booking-edit-post'>
+
+                <form  onSubmit={handleSubmit} method="post" id='booking-form'>
+                <div id='title-booking-edit'>We will notify the owner of your new dates!</div>
+                    {/* <div id='pricePerNight'>${spot.price} night</div> */}
+
+                    <div id='edit-booking-errors'>
+                        {errors.map((error, idx) => (
+                            <div key={idx}>{error}</div>
+                        ))}
+                    </div>
+                    <div>CHECK-IN</div>
+                     <input
+                     type='date'
+                     required
+                     onChange={(e) => setStartDate(e.target.value)}
+                     value={startDate}
+                     className='date-inputs'
+                     />
+
+                     <div> CHECK-OUT</div>
+                     <input
+                     required
+                     type='date'
+                     onChange={(e) => setEndDate(e.target.value)}
+                     value={endDate}
+                     className='date-inputs'
+                     />
+                    <button type='submit' id='booking-submit-button'> Reserve</button>
+
+                </form>
+
+                </div>
+            </div>
+            </div>
+    )
+
+}
+
+export default EditBooking

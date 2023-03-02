@@ -1,8 +1,9 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import { getSpotById } from '../../store/spots';
 import {oneSpotsReviews} from '../../store/reviews'
+import {postBookingThunk} from '../../store/booking'
 import './spotDetails.css'
 
 const SpotDetail = () =>{
@@ -10,6 +11,11 @@ const SpotDetail = () =>{
 const {spotId} = useParams()
 // console.log('id',  spotId)
 const dispatch = useDispatch()
+const history = useHistory()
+
+const [startDate, setStartDate] = useState('')
+const [endDate, setEndDate] = useState('')
+const [errors, setErrors] = useState([])
 
 const spot = useSelector(state => {
     return state.spots.singleSpot
@@ -30,13 +36,60 @@ useEffect(() => {
 
 console.log('allreviews', reviews)
 
-if(!spot.SpotImages) return null
-if(!spot.Owner) return null
+    if(!spot.SpotImages) return null
+    if(!spot.Owner) return null
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const dataErrors = []
+        const splitStart = startDate.split('-')
+        const splitEnd = endDate.split('-')
+
+        const startYear = Number(splitStart[0])
+        const startMonth = Number(splitStart[1])
+        const startDay = Number(splitStart[2])
+
+        const endYear = Number(splitEnd[0])
+        const endMonth = Number(splitEnd[1])
+        const endDay = Number(splitEnd[2])
+
+        if(endYear < startYear) dataErrors.push("End date can't be before start date")
+        if(endMonth < startMonth) dataErrors.push("End date can't be before start date")
+        if(endDay <= startDay) dataErrors.push("End date can't be before or on the  start date")
+
+        if(dataErrors.length){
+            setErrors(dataErrors)
+        } else{
+
+
+
+        const bookingData = {
+            startDate,
+            endDate
+        }
+        console.log('data', bookingData)
+        console.log(splitStart)
+        console.log(splitEnd)
+
+        const postBooking = await dispatch(postBookingThunk(spotId, bookingData)).catch(
+            async (res) => {
+              const data = await res.json()
+              if(data && data.errors) setErrors(data.errors)
+            }
+        )
+        console.log('res', postBooking)
+
+        if(postBooking){
+            history.push('/trips')
+        }
+    }
+    }
 
 
     return (
         <div className='wholePage'>
-        <div id={spot.id}
+        <div
         className='SpotDetailCard'
         >
             <div id='aboveImage'>
@@ -66,7 +119,7 @@ if(!spot.Owner) return null
             >Post a Review</NavLink>
             </div>
             <div id='description'>{spot.description}</div>
-            <div id='pricePerNight'>${spot.price} per night</div>
+
 
             <div id='info'>
                 <div id='checkin'>
@@ -108,6 +161,44 @@ if(!spot.Owner) return null
             </div>
             </div>
         </div>
+        <div id='bookings-side'>
+                <div id='booking-post'>
+
+                <form  onSubmit={handleSubmit} method="post" id='booking-form'>
+                <div id='title-booking'>Start your experience!</div>
+                    <div id='pricePerNight'>${spot.price} night</div>
+
+                    <ul>
+                        {errors.map((error, idx) => (
+                            <li key={idx}>{error}</li>
+                        ))}
+                    </ul>
+                    <div>CHECK-IN</div>
+                     <input
+                     type='date'
+                     required
+                     onChange={(e) => setStartDate(e.target.value)}
+                     value={startDate}
+                     className='date-inputs'
+                     />
+
+                     <div> CHECK-OUT</div>
+                     <input
+                     required
+                     type='date'
+                     onChange={(e) => setEndDate(e.target.value)}
+                     value={endDate}
+                     className='date-inputs'
+                     />
+                    <button type='submit' id='booking-submit-button'> Reserve</button>
+
+                </form>
+
+                </div>
+
+
+
+            </div>
         </div>
     )
 }

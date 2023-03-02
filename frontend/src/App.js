@@ -12,6 +12,8 @@ import EditSpot from "./components/EditSpot";
 import UserReviews from "./components/UserReviews";
 import CreateReview from "./components/CreateReview";
 import UserBookings from "./components/Bookings";
+import EditBooking from "./components/EditBooking";
+import SearchResults from "./components/SearchResults";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,8 +42,20 @@ function App() {
 
           <Route
           exact
+          path='/search/:keyword'>
+            <SearchResults />
+          </Route>
+
+          <Route
+          exact
           path='/reviews/:spotId/new'>
             <CreateReview />
+          </Route>
+
+          <Route
+          exact
+          path='/trips/:bookingId/edit'>
+            <EditBooking />
           </Route>
 
           <Route

@@ -68,3 +68,29 @@
     border-radius: 30px;
     border-width: 40px;
 }
+#search-div{
+    display: flex;
+    flex-direction: row;
+    border: 3px solid lightgray;
+    border-radius: 5%;
+    height:45px;
+    align-items: center;
+    margin-bottom: 1%;
+}
+.NavBar-Search-Input{
+    border-radius: 5%;
+    height:40px;
+    border: none;
+    margin-right: 1%;
+    margin-left: 10px;
+}
+#search-button-div{
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+}
+#search-icon-img{
+    height:40px;
+    border-radius: 25%;
+    /* margin-right: 3%; */
+}

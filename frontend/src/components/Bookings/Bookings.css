@@ -1,0 +1,82 @@
+#all-bookings{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-evenly;
+    margin-top: 40px;
+    /* padding-left: 5px; */
+    margin-left:6%;
+    margin-right:5%;
+    text-decoration: none;
+    align-items: center;
+}
+
+#topLineSpotCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.image-booking{
+    width:250px;
+    height:250px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+.date-label{
+    width:100%;
+    border-bottom: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    margin-bottom: 2%;
+    padding-top: 2%;
+}
+.date-info{
+    margin-bottom: 5%;
+    margin-top: 3%;
+    font-weight: bold;
+}
+#cancel-booking-button{
+    width:100%;
+    background-color: red;
+    color: white;
+    margin-top: 5%;
+    font-weight: bold;
+    height:30px;
+    border-radius: 5%;
+}
+
+#edit-booking-section{
+    width:100%;
+    /* background-color: orange; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height:25px;
+    border: 2px solid red;
+    border-radius: 5%;
+}
+#edit-booking-link{
+    /* background-color: blue; */
+    color:red;
+    width:100%;
+    /* height:100%; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 15px;
+}
+.booking-filter-label{
+    padding-left: 10%;
+    margin-top: 2%;
+    margin-left: 7%;
+    /* margin-right: 5%; */
+    padding-bottom: .5%;
+    font-size: 20px;
+    width:78%;
+    border-bottom: 1px solid gray;
+}
