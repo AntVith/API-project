@@ -13,6 +13,23 @@ const postBooking = (booking) => ({
     type: POST_BOOKING,
     booking
 })
+const DELETE_BOOKING = 'bookings/DELETE_BOOKING'
+const deleteBooking = (id) => ({
+    type: DELETE_BOOKING,
+    id
+})
+
+export const deleteBookingThunk = (id) => async (dispatch) => {
+    const response = await csrfFetch(`/api/bookings/${id}`,{
+        method:'DELETE'
+    })
+
+    if(response.ok){
+        const deleted = await response.json()
+        dispatch(deleteBooking(id))
+        return deleted
+    }
+}
 
 export const postBookingThunk = (spotId, newBooking) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/bookings`, {
@@ -49,6 +66,13 @@ const bookingReducer = (state = initialState, action ) => {
             const newState = {...state}
             const newBookings = {...state.bookings}
             action.trips.Bookings.forEach(booking => newBookings[booking.id] = booking)
+            newState.bookings = newBookings
+            return newState
+        }
+        case DELETE_BOOKING:{
+            const newState = {...state}
+            const newBookings = {...state.bookings}
+            delete newBookings[action.id]
             newState.bookings = newBookings
             return newState
         }

@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {useEffect} from 'react'
-import { NavLink } from 'react-router-dom'
-import {getBookingsThunk} from '../../store/booking'
+import { useHistory } from 'react-router-dom'
+import {getBookingsThunk, deleteBookingThunk} from '../../store/booking'
 import './Bookings.css'
 
 
 const UserBookings = () =>{
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const bookingsObj = useSelector(state => state.bookings.bookings)
     const bookings = Object.values(bookingsObj)
@@ -16,6 +17,16 @@ const UserBookings = () =>{
         console.log('use')
         dispatch(getBookingsThunk())
     }, [dispatch])
+
+    const handleDeletion = async(id) => {
+        const response = dispatch(deleteBookingThunk(id))
+
+
+        if(response){
+            history.push('/trips')
+            alert('Canceled Successfully!')
+        }
+    }
 
     return (
         <div id='bookings-container'>
@@ -38,6 +49,7 @@ const UserBookings = () =>{
                         <div>End Date </div>
                         <div>{booking.endDate}</div>
                     </div>
+                    <button onClick={() => handleDeletion(booking.id)}>Cancel Reservation</button>
                 </div>
                 ))}
             </div>
