@@ -29,6 +29,26 @@ function EditBooking(){
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        const dataErrors = []
+        const splitStart = startDate.split('-')
+        const splitEnd = endDate.split('-')
+
+        const startYear = Number(splitStart[0])
+        const startMonth = Number(splitStart[1])
+        const startDay = Number(splitStart[2])
+
+        const endYear = Number(splitEnd[0])
+        const endMonth = Number(splitEnd[1])
+        const endDay = Number(splitEnd[2])
+
+        if(endYear < startYear) dataErrors.push("End date can't be before start date")
+        if(endMonth < startMonth) dataErrors.push("End date can't be before start date")
+        if(endDay <= startDay) dataErrors.push("End date can't be before or on the  start date")
+
+        if(dataErrors.length){
+            setErrors(dataErrors)
+        } else{
         const bookingData = {
             startDate,
             endDate
@@ -50,6 +70,7 @@ function EditBooking(){
 
             // dispatch(getBookingsThunk())
         }
+    }
     }
     console.log('errors', errors)
     return (
