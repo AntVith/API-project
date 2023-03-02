@@ -1,8 +1,9 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import { getSpotById } from '../../store/spots';
 import {oneSpotsReviews} from '../../store/reviews'
+import {postBookingThunk} from '../../store/booking'
 import './spotDetails.css'
 
 const SpotDetail = () =>{
@@ -10,6 +11,11 @@ const SpotDetail = () =>{
 const {spotId} = useParams()
 // console.log('id',  spotId)
 const dispatch = useDispatch()
+const history = useHistory()
+
+const [startDate, setStartDate] = useState('')
+const [endDate, setEndDate] = useState('')
+const [errors, setErrors] = useState([])
 
 const spot = useSelector(state => {
     return state.spots.singleSpot
@@ -30,13 +36,34 @@ useEffect(() => {
 
 console.log('allreviews', reviews)
 
-if(!spot.SpotImages) return null
-if(!spot.Owner) return null
+    if(!spot.SpotImages) return null
+    if(!spot.Owner) return null
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const bookingData = {
+            startDate,
+            endDate
+        }
+        console.log('data', bookingData)
+
+        const postBooking = await dispatch(postBookingThunk(spotId, bookingData)).catch(
+            async (res) => {
+              const data = await res.json()
+              if(data && data.errors) setErrors(data.errors)
+            }
+        )
+        console.log('res', postBooking)
+
+        if(postBooking){
+            history.push('/trips')
+        }
+    }
 
 
     return (
         <div className='wholePage'>
-        <div id={spot.id}
+        <div
         className='SpotDetailCard'
         >
             <div id='aboveImage'>
@@ -66,7 +93,7 @@ if(!spot.Owner) return null
             >Post a Review</NavLink>
             </div>
             <div id='description'>{spot.description}</div>
-            <div id='pricePerNight'>${spot.price} per night</div>
+
 
             <div id='info'>
                 <div id='checkin'>
@@ -108,6 +135,41 @@ if(!spot.Owner) return null
             </div>
             </div>
         </div>
+        <div id='bookings-side'>
+                <div id='booking-post'>
+
+                <form  onSubmit={handleSubmit} method="post">
+                    <div id='pricePerNight'>${spot.price} per night</div>
+
+                    <ul>
+                        {errors.map((error, idx) => (
+                            <li key={idx}>{error}</li>
+                        ))}
+                    </ul>
+                    <div>CHECK-IN</div>
+                     <input
+                     type='date'
+                     required
+                     onChange={(e) => setStartDate(e.target.value)}
+                     value={startDate}
+                     />
+
+                     <div> CHECK-OUT</div>
+                     <input
+                     required
+                     type='date'
+                     onChange={(e) => setEndDate(e.target.value)}
+                     value={endDate}
+                     />
+                    <button type='submit'> Reserve</button>
+
+                </form>
+
+                </div>
+
+
+
+            </div>
         </div>
     )
 }

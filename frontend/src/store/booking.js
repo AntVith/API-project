@@ -8,6 +8,29 @@ const userBookings = (trips) => ({
     trips
 })
 
+const POST_BOOKING = 'bookings/POST_BOOKING'
+const postBooking = (booking) => ({
+    type: POST_BOOKING,
+    booking
+})
+
+export const postBookingThunk = (spotId, newBooking) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/bookings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newBooking)
+    })
+    console.log('back', response)
+    if(response.ok){
+        const booking = await response.json()
+        dispatch(postBooking(booking))
+        return booking
+    } else{
+        const error = await response.json()
+        return error
+    }
+}
+
 export const getBookingsThunk = () => async (dispatch) => {
     console.log('thunk')
     const response = await csrfFetch('/api/bookings/current')

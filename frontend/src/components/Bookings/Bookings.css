@@ -1,0 +1,27 @@
+#all-bookings{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    margin-top: 40px;
+    /* padding-left: 5px; */
+    margin-left:6%;
+    margin-right:5%;
+    text-decoration: none;
+    align-items: center;
+}
+
+#topLineSpotCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.image-booking{
+    width:250px;
+    height:250px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}

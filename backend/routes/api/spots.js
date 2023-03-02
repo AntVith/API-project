@@ -19,9 +19,15 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const { startDate, endDate } = req.body
     const userId = req.user.id
 
+    const startDateWithExtra = startDate + 'T00:00:00'
+    const endDateFormatWithExtra = endDate + 'T03:00:00'
+    console.log('eeeeeeeeeeeeeee', startDateWithExtra)
+    console.log( 'eeeeeeeeeeeeeee',endDateFormatWithExtra)
+
     // puts date string into date format
     const startDateFormat = new Date(startDate)
     const endDateFormat = new Date(endDate)
+
 
     // below gets milliseconds from 1970 to date
     const timeToStart = startDateFormat.getTime()
@@ -56,8 +62,12 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 for (let booking of bookingsForSpot) {
                     // console.log({ 'booking': booking })
                     // below gets milliseconds from 1970 to start and end dates in booking for that spot
-                    const timeToBookingStart = booking.startDate.getTime()
-                    const timeToBookingEnd = booking.endDate.getTime()
+                    const realBookingStartDate = booking.startDate + 'T03:00:00'
+                    const realBookingEndDate = booking.endDate + 'T03:00:00'
+                    const bookedStartDate = new Date(realBookingStartDate)
+                    const bookedEndDate = new Date(realBookingEndDate)
+                    const timeToBookingStart = bookedStartDate.getTime()
+                    const timeToBookingEnd = bookedEndDate.getTime()
                     // console.log({'start': timeToBookingStart})
                     // console.log({'end': timeToBookingEnd})
 

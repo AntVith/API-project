@@ -1,9 +1,10 @@
 .wholePage{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     align-self: center;
     width: 100%;
+    margin: 0% 15% 0% 15%;
 }
 .SpotDetailCard{
     display: flex;
