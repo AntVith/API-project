@@ -70,3 +70,13 @@
     font-weight: bold;
     font-size: 15px;
 }
+.booking-filter-label{
+    padding-left: 10%;
+    margin-top: 2%;
+    margin-left: 7%;
+    /* margin-right: 5%; */
+    padding-bottom: .5%;
+    font-size: 20px;
+    width:78%;
+    border-bottom: 1px solid gray;
+}
