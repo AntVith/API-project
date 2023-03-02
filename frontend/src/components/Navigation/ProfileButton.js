@@ -64,6 +64,16 @@ function ProfileButton({ user }) {
                 <NavLink
                 id='userSpots'
                 style={{ textDecoration: 'none' }}
+                exact to='/trips'
+                onClick={disableNavLinks}
+                >Trips</NavLink>
+              }
+            </div>
+            <div id='mySpots' >
+              {sessionUser &&
+                <NavLink
+                id='userSpots'
+                style={{ textDecoration: 'none' }}
                 exact to='/spots/edit'
                 onClick={disableNavLinks}
                 >My Spots</NavLink>
