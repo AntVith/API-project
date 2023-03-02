@@ -138,8 +138,8 @@ console.log('allreviews', reviews)
         <div id='bookings-side'>
                 <div id='booking-post'>
 
-                <form  onSubmit={handleSubmit} method="post">
-                    <div id='pricePerNight'>${spot.price} per night</div>
+                <form  onSubmit={handleSubmit} method="post" id='booking-form'>
+                    <div id='pricePerNight'>${spot.price} night</div>
 
                     <ul>
                         {errors.map((error, idx) => (
@@ -152,6 +152,7 @@ console.log('allreviews', reviews)
                      required
                      onChange={(e) => setStartDate(e.target.value)}
                      value={startDate}
+                     className='date-inputs'
                      />
 
                      <div> CHECK-OUT</div>
@@ -160,8 +161,9 @@ console.log('allreviews', reviews)
                      type='date'
                      onChange={(e) => setEndDate(e.target.value)}
                      value={endDate}
+                     className='date-inputs'
                      />
-                    <button type='submit'> Reserve</button>
+                    <button type='submit' id='booking-submit-button'> Reserve</button>
 
                 </form>
 
