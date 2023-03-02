@@ -38,3 +38,21 @@
     color:black;
     margin-bottom: 40px;
 }
+
+#no-results{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#nothing-found-text{
+    font-size: 30px;
+    font-weight: 400;
+    margin-top: 5%;
+}
+
+#recommendation{
+    font-size: 25px;
+    font-weight: 400;
+    margin-top: 5%;
+}

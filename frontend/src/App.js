@@ -13,6 +13,7 @@ import UserReviews from "./components/UserReviews";
 import CreateReview from "./components/CreateReview";
 import UserBookings from "./components/Bookings";
 import EditBooking from "./components/EditBooking";
+import SearchResults from "./components/SearchResults";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +38,12 @@ function App() {
           exact
           path='/reviews'>
             <UserReviews />
+          </Route>
+
+          <Route
+          exact
+          path='/search/:keyword'>
+            <SearchResults />
           </Route>
 
           <Route
