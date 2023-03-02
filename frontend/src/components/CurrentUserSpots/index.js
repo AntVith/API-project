@@ -37,7 +37,7 @@ const DeleteSpot = async (id) =>{
 }
 console.log('message', message)
     return (
-        <div className ='wholePage'>
+        <div className ='wholePage-currentSpots'>
         {/* <div>{message !== 'undefined' &&
         <h3>{message}</h3>
         }</div> */}

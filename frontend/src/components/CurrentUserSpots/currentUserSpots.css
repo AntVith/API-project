@@ -1,6 +1,7 @@
-.wholePage{
+.wholePage-currentSpots{
     align-items: center;
-    width:100%
+    width:100%;
+    margin: 0% 5% 0% 5%;
 
 }
 .allUserSpots{
@@ -9,7 +10,7 @@
     flex-wrap:wrap;
     align-items: center;
     /* justify-content: center; */
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin:35px;
     color:black;
     width:83%

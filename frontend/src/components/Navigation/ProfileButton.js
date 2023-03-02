@@ -56,10 +56,10 @@ function ProfileButton({ user }) {
         {user ? (
           <>
           <div id='ProfileList'>
-            <div id='username'>{user.username}</div>
-            <div id='governmentName'>{user.firstName} {user.lastName}</div>
-            <div id='email'>{user.email}</div>
-            <div id='mySpots' >
+            <div className='profile-column'>{user.username}</div>
+            <div className='profile-column'>{user.firstName} {user.lastName}</div>
+            <div className='profile-column'>{user.email}</div>
+            <div className='profile-column' >
               {sessionUser &&
                 <NavLink
                 id='userSpots'
@@ -69,7 +69,7 @@ function ProfileButton({ user }) {
                 >Trips</NavLink>
               }
             </div>
-            <div id='mySpots' >
+            <div className='profile-column' >
               {sessionUser &&
                 <NavLink
                 id='userSpots'
@@ -79,7 +79,7 @@ function ProfileButton({ user }) {
                 >My Spots</NavLink>
               }
             </div>
-              <div id='userReviews'>
+              <div className='profile-column'>
               {sessionUser &&
                 <NavLink
                 id='reviewNavLink'
