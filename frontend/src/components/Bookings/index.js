@@ -55,7 +55,10 @@ const UserBookings = () =>{
     console.log('p',pastBookings)
     console.log('f', futureBookings)
 
-
+    const splitDate = (date) => {
+        const split = date.split('T')
+        return split[0]
+    }
 
     const handleDeletion = async(id) => {
         const response = dispatch(deleteBookingThunk(id))
@@ -86,11 +89,11 @@ const UserBookings = () =>{
                     </div>
                     <div id='start-date-row'>
                         <div className='date-label'>Start Date </div>
-                        <div className='date-info'>{booking.startDate}</div>
+                        <div className='date-info'>{splitDate(booking.startDate)}</div>
                     </div>
                     <div id='end-date-row'>
                         <div className='date-label'>End Date </div>
-                        <div className='date-info'>{booking.endDate}</div>
+                        <div className='date-info'>{splitDate(booking.endDate)}</div>
                     </div>
                     <div id='edit-booking-section'>
                         <NavLink
