@@ -42,14 +42,14 @@ const UserBookings = () =>{
                         <div>{booking.Spot.city}, {booking.Spot.state}</div>
                     </div>
                     <div id='start-date-row'>
-                        <div>Start Date </div>
-                        <div>{booking.startDate}</div>
+                        <div className='date-label'>Start Date </div>
+                        <div className='date-info'>{booking.startDate}</div>
                     </div>
                     <div id='end-date-row'>
-                        <div>End Date </div>
-                        <div>{booking.endDate}</div>
+                        <div className='date-label'>End Date </div>
+                        <div className='date-info'>{booking.endDate}</div>
                     </div>
-                    <button onClick={() => handleDeletion(booking.id)}>Cancel Reservation</button>
+                    <button onClick={() => handleDeletion(booking.id)} id='cancel-booking-button'>Cancel Reservation</button>
                 </div>
                 ))}
             </div>
