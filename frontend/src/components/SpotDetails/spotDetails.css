@@ -202,7 +202,7 @@
     border-radius: 10%;
     margin-left: 3%;
     align-self: center;
-    margin-bottom: 12%;
+    margin-bottom: 15%;
 }
 #booking-post{
     display: flex;
@@ -237,4 +237,11 @@
     font-weight: bold;
     font-size: 18px;
 
+}
+#title-booking{
+    align-self: center;
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 10%;
+    color: red;
 }

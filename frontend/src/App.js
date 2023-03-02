@@ -12,6 +12,7 @@ import EditSpot from "./components/EditSpot";
 import UserReviews from "./components/UserReviews";
 import CreateReview from "./components/CreateReview";
 import UserBookings from "./components/Bookings";
+import EditBooking from "./components/EditBooking";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,12 @@ function App() {
           exact
           path='/reviews/:spotId/new'>
             <CreateReview />
+          </Route>
+
+          <Route
+          exact
+          path='/trips/:bookingId/edit'>
+            <EditBooking />
           </Route>
 
           <Route

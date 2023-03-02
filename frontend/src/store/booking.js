@@ -18,6 +18,27 @@ const deleteBooking = (id) => ({
     type: DELETE_BOOKING,
     id
 })
+const EDIT_BOOKING = 'bookings/EDIT_BOOKING'
+const editBooking = (booking) => ({
+    type:EDIT_BOOKING,
+    booking
+})
+
+export const editBookingThunk = (id, data) => async (dispatch) =>{
+    const response = await csrfFetch(`/api/bookings/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    if(response.ok){
+        const booking = await response.json()
+        dispatch(editBooking(booking))
+        getBookingsThunk()
+        return booking
+    }
+
+
+}
 
 export const deleteBookingThunk = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/bookings/${id}`,{
@@ -73,6 +94,13 @@ const bookingReducer = (state = initialState, action ) => {
             const newState = {...state}
             const newBookings = {...state.bookings}
             delete newBookings[action.id]
+            newState.bookings = newBookings
+            return newState
+        }
+        case EDIT_BOOKING:{
+            const newState = {...state}
+            const newBookings = {...state.bookings}
+            newBookings[action.booking.id] = action.booking
             newState.bookings = newBookings
             return newState
         }

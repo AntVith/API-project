@@ -46,3 +46,27 @@
     height:30px;
     border-radius: 5%;
 }
+
+#edit-booking-section{
+    width:100%;
+    /* background-color: orange; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height:25px;
+    border: 2px solid red;
+    border-radius: 5%;
+}
+#edit-booking-link{
+    /* background-color: blue; */
+    color:red;
+    width:100%;
+    /* height:100%; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 15px;
+}

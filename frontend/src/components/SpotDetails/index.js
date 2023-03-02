@@ -139,6 +139,7 @@ console.log('allreviews', reviews)
                 <div id='booking-post'>
 
                 <form  onSubmit={handleSubmit} method="post" id='booking-form'>
+                <div id='title-booking'>Start your experience!</div>
                     <div id='pricePerNight'>${spot.price} night</div>
 
                     <ul>
