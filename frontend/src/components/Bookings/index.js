@@ -44,12 +44,22 @@ const UserBookings = () =>{
         const startMonth = Number(splitStart[1])
         const startDay = Number(splitStart[2])
 
+        const splitEnd = booking.endDate.split('-')
+        const endDay = Number(splitEnd[2])
+
         const date = new Date()
         const year = date.getFullYear()
         const month = date.getMonth() + 1
         const day = date.getDate()
 
-        return startYear >= year && startMonth >= month && startDay >=day
+        if(startYear > year) return true
+        else if (startYear === year && startMonth > month) return true
+        else if (startYear === year && startMonth === month && startDay >=day) return true
+        else if ( startYear === year && startMonth === month && startDay < day && endDay > day) return true
+        else{
+            return false
+        }
+
     })
     console.log('book', bookings)
     console.log('p',pastBookings)
