@@ -735,7 +735,7 @@ router.get('/', async (req, res, next) => {
         let avg = sum / count
         // console.log('(sum/count)', (sum / count))
         if (isNaN(avg)) {
-            house.avgRating = 'No ratings yet!'
+            house.avgRating = 'No ratings!'
         } else {
             house.avgRating = avg
         }
