@@ -13,7 +13,7 @@ module.exports = {
       {
         address: '123 Rainbow Road',
         ownerId: 1,
-        city: 'Long Ialand',
+        city: 'Long Island',
         state: 'New York',
         country: 'USA',
         lat: 1111111111,
@@ -42,7 +42,7 @@ module.exports = {
         country: 'USA',
         lat: 3333333333,
         lng:3333333333,
-        name:'Voted in the Top 10 most beautiful houses in the Nation',
+        name:'Secluded artic getaway',
         description: '3 bed 5 bath',
         price: 650
       },
@@ -140,7 +140,7 @@ module.exports = {
         name:'Condo of your dreams!',
         description: '2 bed 3 bath',
         price: 1999
-      },
+      }
      ], {});
 
   },

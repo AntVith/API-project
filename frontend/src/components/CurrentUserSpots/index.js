@@ -45,6 +45,7 @@ console.log('message', message)
              {userSpots.map(spot => (
                 <div
                 key={spot.id}
+                id='user-spot-card'
                 >
                 <img
                 className='image'
