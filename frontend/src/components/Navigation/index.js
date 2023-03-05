@@ -28,7 +28,7 @@ function Navigation({ isLoaded }){
       <div id='search-div'>
           <input
           type='text'
-          placeholder='Start your search'
+          placeholder='   Start your search'
           required
           onChange={(e) => setSearchInput(e.target.value)}
           value={searchInput}

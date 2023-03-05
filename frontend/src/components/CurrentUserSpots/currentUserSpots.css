@@ -15,6 +15,9 @@
     color:black;
     width:83%
 }
+#user-spot-card{
+    margin-bottom: 3%;
+}
 
 .infoWithEditORdelete{
     display:flex;

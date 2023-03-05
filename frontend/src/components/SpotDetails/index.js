@@ -17,6 +17,9 @@ const [startDate, setStartDate] = useState('')
 const [endDate, setEndDate] = useState('')
 const [errors, setErrors] = useState([])
 
+const sessionUser = useSelector(state => state.session.user)
+console.log('sesh', sessionUser)
+
 const spot = useSelector(state => {
     return state.spots.singleSpot
 })
@@ -35,14 +38,19 @@ useEffect(() => {
 }, [dispatch, spotId])
 
 console.log('allreviews', reviews)
+console.log('spot id', spot.ownerId)
 
     if(!spot.SpotImages) return null
     if(!spot.Owner) return null
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
         const dataErrors = []
+
+        if(!sessionUser) dataErrors.push('Must be signed in to book')
+        if(sessionUser && sessionUser.id === spot.ownerId) dataErrors.push("Can't book your own spot")
+
+
         const splitStart = startDate.split('-')
         const splitEnd = endDate.split('-')
 

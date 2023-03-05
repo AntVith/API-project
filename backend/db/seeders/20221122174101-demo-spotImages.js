@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         spotId: 3,
-        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-46695796/original/38bc8081-9415-453a-b8bf-9f4aeb146819.jpeg?im_w=720',
+        url: 'https://weburbanist.com/wp-content/uploads/2012/06/cloud-house-1.jpg',
         preview: true
       },
       {
@@ -76,7 +76,7 @@ module.exports = {
     await queryInterface.bulkDelete(options, {
       url: { [Op.in]: ['https://a0.muscache.com/im/pictures/miso/Hosting-21409981/original/a8fa243d-dac8-4238-93e5-f7aa33072ff8.jpeg?im_w=720',
       'https://a0.muscache.com/im/pictures/128c623f-c401-4aa4-80bc-446165fd6884.jpg?im_w=720',
-      'https://a0.muscache.com/im/pictures/miso/Hosting-46695796/original/38bc8081-9415-453a-b8bf-9f4aeb146819.jpeg?im_w=720',
+      'https://weburbanist.com/wp-content/uploads/2012/06/cloud-house-1.jpg',
       'https://thumbs.cityrealty.com/assets/smart/736x/webp/2/22/22ca6350cd0dcc474556e1e06bd8144482a45135/15-central-park-west-01.jpg',
       'https://wp-tid.zillowstatic.com/bedrock/app/uploads/sites/26/nyc-apartments-for-3200-lic-6fadb8.jpg',
       'https://sp-ao.shortpixel.ai/client/q_glossy,ret_img/https://www.glenwoodnyc.com/wp-content/uploads/2022/05/2-JSP-LOBBY-01-02-1280.jpg',
